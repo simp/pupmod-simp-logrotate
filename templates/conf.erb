@@ -1,0 +1,120 @@
+# This file managed by puppet.
+# Any changes that you make will be reverted on the next puppet run.
+
+<% if !@log_files.empty? then -%>
+<%  Array(@log_files).flatten.each do |lfile| -%>
+"<%= lfile %>" <% end -%> {
+<%  if not @compress then -%>
+    nocompress
+<%  else -%>
+    compress
+<%    if !@compresscmd.empty? then -%>
+    compresscmd <%= @compresscmd %>
+<%    end -%>
+<%    if !@compressext.empty? then -%>
+    compressext <%= @compressext %>
+<%    end -%>
+<%    if !@compressoptions.empty? then -%>
+    compressoptions <%= @compressoptions %>
+<%    end -%>
+<%    if !@delaycompress.empty? then -%>
+    delaycompress
+<%    else -%>
+    nodelaycompress
+<%    end -%>
+<%  end -%>
+<%  if !@uncompresscmd.empty? then -%>
+    uncompresscmd <%= @uncompresscmd %>
+<%  end -%>
+<%  if @copy then -%>
+    copy
+<%  else -%>
+    nocopy
+<%  end -%>
+<%  if @copytruncate then -%>
+    copytruncate
+<%  else -%>
+    nocopytruncate
+<%  end -%>
+    create <%= @create %>
+<%  if !@rotate_period.empty? then -%>
+    <%= @rotate_period %>
+<%  end -%>
+<%  if @dateext then -%>
+    dateext
+    dateformat <%= @dateformat %>
+<%  end -%>
+<%  if !@extension.empty? then -%>
+    extension <%= @extension %>
+<%  end -%>
+<%  if @ifempty then -%>
+    ifempty
+<%  else -%>
+    notifempty
+<%  end -%>
+<%  if not @mail then -%>
+    nomail
+<%  elsif !@mail.empty? then -%>
+    mail <%= @mail %>
+<%    if @maillast then -%>
+    maillast
+<%    else -%>
+    mailfirst
+<%    end -%>
+<%  end -%>
+<%  if !@maxage.empty? then -%>
+    maxage <%= @maxage %>
+<%  end -%>
+<%  if !@minsize.empty? then -%>
+    minsize <%= @minsize %>
+<%  end -%>
+<%  if @missingok then -%>
+    missingok
+<%  else -%>
+    nomissingok
+<%  end -%>
+<%  if !@olddir.empty? then -%>
+    olddir <%= @olddir %>
+<%  else -%>
+    noolddir
+<%  end -%>
+<%  if !@postrotate.empty? then -%>
+    postrotate
+<%= "\t\t#{@postrotate}" %>
+    endscript
+<%  end -%>
+<%  if !@prerotate.empty? then -%>
+    prerotate
+<%= "\t\t#{@prerotate}" %>
+    endscript
+<%  end -%>
+<%  if !@firstaction.empty? then -%>
+    firstaction
+<%= "\t\t#{@firstaction}" %>
+    endscript
+<%  end -%>
+<%  if !@lastaction.empty? then -%>
+    lastaction
+<%= "\t\t#{@lastaction}" %>
+    endscript
+<%  end -%>
+    rotate <%= @rotate %>
+<%  if !@size.empty? then -%>
+    size <%= @size %>
+<%  end -%>
+<%  if @sharedscripts then -%>
+    sharedscripts
+<%  else -%>
+    nosharedscripts
+<%  end -%>
+    start <%= @start %>
+}
+<% end -%>
+<% if !@tabooext.empty? then -%>
+    tabooext + <%= Array(@tabooext).join(',') %>
+<% end -%>
+<% Array(@ext_include).flatten.each do |einc| -%>
+  <% if ! einc.empty? -%>
+include <%= einc %>
+  <% end -%>
+<% end -%>

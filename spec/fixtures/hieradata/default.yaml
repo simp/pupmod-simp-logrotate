@@ -1,0 +1,3 @@
+---
+logrotate::rotate_period: 'weekly'
+logrotate::rotate: '4'

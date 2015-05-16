@@ -1,0 +1,33 @@
+# This file managed by puppet.
+# Any changes that you make will be reverted on the next puppet run.
+
+<%= @rotate_period %>
+rotate <%= ( @rotate.to_i > 0 && @rotate ) || 1 %>
+<% if @create then -%>
+create
+<% end -%>
+<% if @compress then -%>
+compress
+<% end -%>
+<% if @dateext then -%>
+dateext
+dateformat <%= @dateformat %>
+<% end -%>
+<%
+  t_include_dirs = ['/etc/logrotate.d']
+  t_include_dirs = t_include_dirs + Array(@include_dirs.dup).flatten
+  t_include_dirs.each do |t_dir|
+-%>
+<% if ! t_dir.empty? -%>
+include <%= t_dir %>
+<% end -%>
+<% end -%>
+
+<% if @manage_wtmp then -%>
+/var/log/wtmp {
+    monthly
+    minsize 1M
+    create 0664 root utmp
+    rotate 1
+}
+<% end -%>
