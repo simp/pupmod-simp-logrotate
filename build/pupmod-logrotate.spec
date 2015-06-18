@@ -11,7 +11,7 @@ Buildarch: noarch
 Requires: simp-bootstrap >= 4.2.0
 Obsoletes: pupmod-logrotate-test
 
-Prefix:"/etc/puppet/environments/simp/modules"
+Prefix: /etc/puppet/environments/simp/modules
 
 %description
 This Puppet module provides the capability to configure logrotate.
@@ -40,13 +40,13 @@ mkdir -p %{buildroot}/%{prefix}/logrotate
 
 %files
 %defattr(0640,root,puppet,0750)
-/etc/puppet/environments/simp/modules/logrotate
+%{prefix}/logrotate
 
 %post
 #!/bin/sh
 
-if [ -d /etc/puppet/environments/simp/modules/logrotate/plugins ]; then
-  /bin/mv /etc/puppet/environments/simp/modules/logrotate/plugins /etc/puppet/environments/simp/modules/logrotate/plugins.bak
+if [ -d %{prefix}/logrotate/plugins ]; then
+  /bin/mv %{prefix}/logrotate/plugins %{prefix}/logrotate/plugins.bak
 fi
 
 %postun
@@ -127,5 +127,5 @@ fi
 * Thu Jan 28 2010 Trevor Vaughan <tvaughan@onyxpoint.com> - 0.1-1
 - Changed the default 'rotate' value to 4 instead of 7.
 
-* Mon Nov 04 2009 Trevor Vaughan <tvaughan@onyxpoint.com> - 0.1-0
+* Wed Nov 04 2009 Trevor Vaughan <tvaughan@onyxpoint.com> - 0.1-0
 - Initial module release.
