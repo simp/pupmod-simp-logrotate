@@ -54,6 +54,12 @@ class logrotate (
   $dateformat = '-%Y%m%d.%s',
   $max_size = '500M'
 ) {
+  validate_array_member($rotate_period, ['daily','weekly','monthly','yearly'])
+  validate_integer($rotate)
+  validate_bool($create)
+  validate_bool($compress)
+  validate_bool($manage_wtmp)
+  validate_bool($dateext)
 
   file { '/etc/logrotate.conf':
     ensure  => 'file',
@@ -71,11 +77,4 @@ class logrotate (
   }
 
   package { 'logrotate': ensure => 'latest' }
-
-  validate_array_member($rotate_period, ['daily','weekly','monthly','yearly'])
-  validate_integer($rotate)
-  validate_bool($create)
-  validate_bool($compress)
-  validate_bool($manage_wtmp)
-  validate_bool($dateext)
 }
