@@ -7,5 +7,5 @@ describe 'logrotate::add' do
     :log_files => ['test1.log', 'test2.log']
   }}
 
-  it { should create_file('/etc/logrotate.d/test_logrotate_title').with_content(/test1\.log.*test2\.log/) }
+  it { is_expected.to create_file('/etc/logrotate.d/test_logrotate_title').with_content(/test1\.log.*test2\.log/) }
 end

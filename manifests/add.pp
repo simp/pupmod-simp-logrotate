@@ -88,14 +88,6 @@ define logrotate::add (
   $start = '1',
   $tabooext = ''
 ) {
-
-  file { "/etc/logrotate.d/$name":
-    owner   => 'root',
-    group   => 'root',
-    mode    => '0644',
-    content => template('logrotate/conf.erb')
-  }
-
   validate_bool($compress)
   validate_bool($copy)
   validate_bool($copytruncate)
@@ -109,4 +101,11 @@ define logrotate::add (
   validate_integer($rotate)
   validate_bool($sharedscripts)
   validate_integer($start)
+
+  file { "/etc/logrotate.d/${name}":
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0644',
+    content => template('logrotate/conf.erb')
+  }
 }

@@ -1,7 +1,7 @@
 Summary: Logrotate Puppet Module
 Name: pupmod-logrotate
 Version: 4.1.0
-Release: 2
+Release: 3
 License: Apache License, Version 2.0
 Group: Applications/System
 Source: %{name}-%{version}-%{release}.tar.gz
@@ -53,6 +53,9 @@ fi
 # Post uninstall stuff
 
 %changelog
+* Tue Jan 26 2016 Chris Tessmer <chris.tessmer@onypoint.com> - 4.1.0-3
+- Normalized common static module assets
+
 * Fri Jan 16 2015 Trevor Vaughan <tvaughan@onyxpoint.com> - 4.1.0-2
 - Changed puppet-server requirement to puppet
 
