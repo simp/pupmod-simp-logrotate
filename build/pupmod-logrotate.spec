@@ -1,7 +1,7 @@
 Summary: Logrotate Puppet Module
 Name: pupmod-logrotate
 Version: 4.1.0
-Release: 3
+Release: 4
 License: Apache License, Version 2.0
 Group: Applications/System
 Source: %{name}-%{version}-%{release}.tar.gz
@@ -10,6 +10,7 @@ Requires: puppet >= 3.3.0
 Buildarch: noarch
 Requires: simp-bootstrap >= 4.2.0
 Obsoletes: pupmod-logrotate-test
+Requires: pupmod-onyxpoint-compliance_markup
 
 Prefix: /etc/puppet/environments/simp/modules
 
@@ -53,6 +54,9 @@ fi
 # Post uninstall stuff
 
 %changelog
+* Tue Feb 23 2016 Ralph Wright <ralph.wright@onyxpoint.com> - 4.1.0-4
+- Added compliance function support
+
 * Tue Jan 26 2016 Chris Tessmer <chris.tessmer@onypoint.com> - 4.1.0-3
 - Normalized common static module assets
 
