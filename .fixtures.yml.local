@@ -1,6 +1,7 @@
----
-fixtures:
-  symlinks:
-    logrotate: "#{source_dir}"
-    common: "#{source_dir}/../common"
-    stdlib: "#{source_dir}/../stdlib"
+--- 
+  fixtures: 
+    symlinks: 
+      compliance: "#{source_dir}/../compliance"
+      logrotate: "#{source_dir}"
+      simplib: "#{source_dir}/../simplib"
+      stdlib: "#{source_dir}/../stdlib"
