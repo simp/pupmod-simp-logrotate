@@ -1,21 +1,24 @@
 {
-  "name":    "simp-logrotate",
+  "name": "simp-logrotate",
   "version": "4.1.0",
-  "author":  "simp",
+  "author": "simp",
   "summary": "configure SIMP logrotate",
   "license": "Apache-2.0",
-  "source":  "https://github.com/simp/pupmod-simp-logrotate",
+  "source": "https://github.com/simp/pupmod-simp-logrotate",
   "project_page": "https://github.com/simp/pupmod-simp-logrotate",
-  "issues_url":   "https://simp-project.atlassian.net",
-  "tags": [ "simp", "logrotate" ],
+  "issues_url": "https://simp-project.atlassian.net",
+  "tags": [
+    "simp",
+    "logrotate"
+  ],
   "dependencies": [
     {
       "name": "simp/simplib",
-      "version_requirement": ">= 1.0.0"
+      "version_requirement": ">= 1.3.1 < 2.0.0"
     },
     {
       "name": "simp/compliance_markup",
-      "version_requirement": ">= 1.0.0"
+      "version_requirement": ">= 1.0.1 < 2.0.0"
     }
   ],
   "operatingsystem_support": [
