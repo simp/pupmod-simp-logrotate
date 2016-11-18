@@ -1,4 +1,2 @@
-Requires: pupmod-simp-compliance_markup >= 2.0.0-0
-Requires: pupmod-simp-compliance_markup < 3.0.0-0
 Requires: pupmod-simp-simplib >= 2.0.0-0
 Requires: pupmod-simp-simplib < 3.0.0-0
