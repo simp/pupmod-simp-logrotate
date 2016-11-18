@@ -1,7 +1,0 @@
---- 
-  fixtures: 
-    symlinks: 
-      compliance_markup: "#{source_dir}/../compliance_markup"
-      logrotate: "#{source_dir}"
-      simplib: "#{source_dir}/../simplib"
-      stdlib: "#{source_dir}/../stdlib"

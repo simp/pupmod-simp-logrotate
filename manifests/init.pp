@@ -61,7 +61,6 @@ class logrotate (
   validate_bool($manage_wtmp)
   validate_bool($dateext)
 
-  compliance_map()
 
   file { '/etc/logrotate.conf':
     ensure  => 'file',
