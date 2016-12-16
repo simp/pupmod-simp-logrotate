@@ -2,28 +2,30 @@
 # Any changes that you make will be reverted on the next puppet run.
 
 <%= @rotate_period %>
-rotate <%= ( @rotate.to_i > 0 && @rotate ) || 1 %>
-<% if @create then -%>
+rotate <%= @rotate %>
+<% if @create -%>
 create
 <% end -%>
-<% if @compress then -%>
+<% if @compress -%>
 compress
 <% end -%>
-<% if @dateext then -%>
+<% if @dateext -%>
 dateext
 dateformat <%= @dateformat %>
 <% end -%>
 <%
-  t_include_dirs = ['/etc/logrotate.d']
-  t_include_dirs = t_include_dirs + Array(@include_dirs.dup).flatten
-  t_include_dirs.each do |t_dir|
+  (['/etc/logrotate.d'] + Array(@include_dirs)).flatten.each do |_dir|
 -%>
-<% if ! t_dir.empty? -%>
-include <%= t_dir %>
-<% end -%>
+include <%= _dir %>
 <% end -%>
 
-<% if @manage_wtmp then -%>
+<% if @minsize -%>
+minsize <%= @minsize %>
+<% elsif @maxsize -%>
+maxsize <%= @maxsize %>
+<% end -%>
+
+<% if @manage_wtmp -%>
 /var/log/wtmp {
     monthly
     minsize 1M

@@ -1,3 +1,7 @@
+* Fri Dec 16 2016 Trevor Vaughan <tvaughan@onyxpoint.com> - 6.0.0-0
+- Updated for Puppet 4
+- Renamed the `logrotate::add` defined type to `logrotate::rule`
+
 * Fri Nov 18 2016 Chris Tessmer <chris.tessmer@onyxpoint.com> - 5.0.0-0
 - Updated to compliance_markup version 2
 
