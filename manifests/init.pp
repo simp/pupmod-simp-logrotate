@@ -1,73 +1,67 @@
-# == Class: logrotate
+# Configure LogRotate global options
 #
-# Set up the basics of the logrotate space.
+# Use ``logrotate::rule`` for specific configuration options.
 #
-# This does not allow for specialized log rotation. You should use
-# logrotate::add for that.
+# @param rotate_period
+#   How often to rotate the logs
 #
-# == Parameters
-#
-# [*rotate_period*]
-#   How often to rotate the logs.
-#
-# [*rotate*]
+# @param rotate
 #   The number of times to rotate the logs before removing them from the
-#   system.
+#   system
 #
-# [*create*]
-#   Whether or not to create new log files if they do not exist.
+# @param create
+#   Create new log files if they do not exist
 #
-# [*compress*]
-#   Whether or not to compress the logs upon rotation.
+# @param compress
+#   Compress the logs upon rotation
 #
-# [*include_dirs*]
-#   Directories to include in your logrotate configuration as an array.
-#   /etc/logrotate.d is always included.
+# @param include_dirs
+#   Directories to include in your logrotate configuration
 #
-# [*manage_wtmp*]
-#   /var/log/wtmp is traditionally managed by /etc/logrotate.conf. Set this
-#   to false if you do not want this to happen.
+#   * ``/etc/logrotate.d`` is always included
 #
-# [*dateext*]
-#   Whether or not to use 'dateext' as the suffix for rotated files.
+# @param manage_wtmp
+#   Set to ``false`` if you do not want ``/var/log/wtmp`` to be managed by
+#   logrotate
 #
-# [*dateformat*]
-#   The format of the date to be appended. Leaving as is allows for multiple
-#   rotations per day.
+# @param dateext
+#   Use ``dateext`` as the suffix for rotated files
 #
-# [*max_size*]
-#   The default maximum size of a logfile, set to 500M to attempt to prevent
-#   /var/log from filling.
+# @param dateformat
+#   The format of the date to be appended
 #
-# == Authors
+#   * Leaving as is allows for multiple rotations per day
 #
-# * Trevor Vaughan <tvaughan@onyxpoint.com>
+# @param maxsize
+#   The default maximum size of a logfile
+#
+# @param minsize
+#   The default minimum size of a logfile
+#
+#   * Overrides the ``maxsize`` setting
+#
+# @author Trevor Vaughan <tvaughan@onyxpoint.com>
 #
 class logrotate (
-  $rotate_period = 'weekly',
-  $rotate = '4',
-  $create = true,
-  $compress = true,
-  $include_dirs = '',
-  $manage_wtmp = true,
-  $dateext = true,
-  $dateformat = '-%Y%m%d.%s',
-  $max_size = '500M'
+  Enum['daily','weekly','monthly','yearly'] $rotate_period = 'weekly',
+  Integer[0]                                $rotate        = 4,
+  Boolean                                   $create        = true,
+  Boolean                                   $compress      = true,
+  Array[Stdlib::Absolutepath]               $include_dirs  = [],
+  Boolean                                   $manage_wtmp   = true,
+  Boolean                                   $dateext       = true,
+  String                                    $dateformat    = '-%Y%m%d.%s',
+  Optional[Pattern['^\d+(k|M|G)?$']]        $maxsize       = undef,
+  Optional[Pattern['^\d+(k|M|G)?$']]        $minsize       = undef
 ) {
-  validate_array_member($rotate_period, ['daily','weekly','monthly','yearly'])
-  validate_integer($rotate)
-  validate_bool($create)
-  validate_bool($compress)
-  validate_bool($manage_wtmp)
-  validate_bool($dateext)
-
+  package { 'logrotate': ensure => 'latest' }
 
   file { '/etc/logrotate.conf':
     ensure  => 'file',
     owner   => 'root',
     group   => 'root',
     mode    => '0644',
-    content => template('logrotate/logrotate.conf.erb')
+    content => template("${module_name}/logrotate.conf.erb")
   }
 
   file { '/etc/logrotate.d':
@@ -76,6 +70,4 @@ class logrotate (
     group  => 'root',
     mode   => '0644'
   }
-
-  package { 'logrotate': ensure => 'latest' }
 }

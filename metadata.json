@@ -1,6 +1,6 @@
 {
   "name": "simp-logrotate",
-  "version": "5.0.0",
+  "version": "6.0.0",
   "author": "SIMP Team",
   "summary": "configure SIMP logrotate",
   "license": "Apache-2.0",
@@ -13,8 +13,38 @@
   ],
   "dependencies": [
     {
+      "name": "puppetlabs/stdlib",
+      "version_requirement": ">= 4.9.0 < 5.0.0"
+    },
+    {
       "name": "simp/simplib",
       "version_requirement": ">= 2.0.0 < 3.0.0"
+    }
+  ],
+  "operatingsystem_support": [
+    {
+      "operatingsystem": "CentOS",
+      "operatingsystemrelease": [
+        "6",
+        "7"
+      ]
+    },
+    {
+      "operatingsystem": "RedHat",
+      "operatingsystemrelease": [
+        "6",
+        "7"
+      ]
+    }
+  ],
+  "requirements": [
+    {
+      "name": "puppet",
+      "version_requirement": "4.x"
+    },
+    {
+      "name": "pe",
+      "version_requirement": ">= 2016.2.0"
     }
   ],
   "operatingsystem_support": [
