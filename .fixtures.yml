@@ -1,10 +1,9 @@
 ---
 fixtures:
   repositories:
-    #simplib: https://github.com/simp/pupmod-simp-simplib
+    simplib: https://github.com/simp/pupmod-simp-simplib
     stdlib:
       repo: https://github.com/simp/puppetlabs-stdlib
       branch: master
   symlinks:
     logrotate: "#{source_dir}"
-    simplib: "#{source_dir}/../simplib"
