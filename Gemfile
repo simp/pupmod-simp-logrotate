@@ -17,6 +17,7 @@ group :test do
   gem 'puppet-lint-trailing_comma-check', :require => false
   gem 'simp-rspec-puppet-facts', ENV.fetch('SIMP_RSPEC_PUPPET_FACTS_VERSION', '~> 1.3')
   gem 'simp-rake-helpers', ENV.fetch('SIMP_RAKE_HELPERS_VERSION', '~> 3.0')
+  gem 'puppet-strings'
 end
 
 group :development do
@@ -24,7 +25,6 @@ group :development do
   gem 'travis-lint'
   gem 'travish'
   gem 'puppet-blacksmith'
-  gem 'puppet-strings'
   gem 'guard-rake'
   gem 'pry'
   gem 'pry-doc'
