@@ -13,11 +13,11 @@ group :test do
   gem 'hiera-puppet-helper'
   gem 'puppetlabs_spec_helper'
   gem 'metadata-json-lint'
+  gem 'puppet-strings'
   gem 'puppet-lint-empty_string-check',   :require => false
   gem 'puppet-lint-trailing_comma-check', :require => false
   gem 'simp-rspec-puppet-facts', ENV.fetch('SIMP_RSPEC_PUPPET_FACTS_VERSION', '~> 1.3')
   gem 'simp-rake-helpers', ENV.fetch('SIMP_RAKE_HELPERS_VERSION', '~> 3.0')
-  gem 'puppet-strings'
 end
 
 group :development do
