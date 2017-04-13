@@ -88,7 +88,7 @@ define logrotate::rule (
   Optional[String]                                    $prerotate                 = undef,
   Optional[String]                                    $firstaction               = undef,
   Optional[String]                                    $lastaction                = undef,
-  Optional[String]                                    $logger_service            = lookup({'name' => 'logrotate::rule::logger_service', "default_value" => 'rsyslog'}),
+  Optional[String]                                    $logger_service            = lookup({'name' => 'logrotate::rule::logger_service', 'default_value' => 'rsyslog'}),
   Boolean                                             $lastaction_restart_logger = false,
   Integer[0]                                          $rotate                    = 4,
   Optional[Integer[0]]                                $size                      = undef,
