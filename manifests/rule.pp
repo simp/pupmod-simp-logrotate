@@ -91,7 +91,7 @@ define logrotate::rule (
   Optional[String]                                    $firstaction               = undef,
   Optional[String]                                    $lastaction                = undef,
   Boolean                                             $lastaction_restart_logger = false,
-  Optional[String]                                    $logger_service            = lookup({'name' => 'logrotate::logger_service', 'default_value' => 'rsyslog'}),
+  Optional[String]                                    $logger_service            = simplib::lookup('logrotate::logger_service', {'default_value' => 'rsyslog'}),
   Integer[0]                                          $rotate                    = 4,
   Optional[Integer[0]]                                $size                      = undef,
   Boolean                                             $sharedscripts             = true,
