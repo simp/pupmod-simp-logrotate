@@ -26,9 +26,9 @@ describe 'logrotate::rule' do
           it { is_expected.to create_file('/etc/logrotate.d/test_logrotate_title').with_content(/test1\.log.*test2\.log/) }
           if (['RedHat', 'CentOS'].include?(facts[:operatingsystem]))
             if (facts[:operatingsystemmajrelease].to_s >= '7')
-              it { is_expected.to create_file('/etc/logrotate.d/test_logrotate_title').with_content(/lastaction\n.*\/usr\/bin\/systemctl restart rsyslog/) }
+              it { is_expected.to create_file('/etc/logrotate.d/test_logrotate_title').with_content(/lastaction\n\s+\/usr\/bin\/systemctl restart rsyslog/m) }
             else
-              it { is_expected.to create_file('/etc/logrotate.d/test_logrotate_title').with_content(/lastaction\n.*\/sbin\/service rsyslog restart/) }
+              it { is_expected.to create_file('/etc/logrotate.d/test_logrotate_title').with_content(/lastaction\n\s+\/sbin\/service rsyslog restart/m) }
             end
           end
         end
@@ -41,9 +41,9 @@ describe 'logrotate::rule' do
           let(:hieradata) { 'alternate_logger' }
           if (['RedHat', 'CentOS'].include?(facts[:operatingsystem]))
             if (facts[:operatingsystemmajrelease].to_s >= '7')
-              it { is_expected.to create_file('/etc/logrotate.d/test_logrotate_title').with_content(/lastaction\n.*\/usr\/bin\/systemctl restart syslog/) }
+              it { is_expected.to create_file('/etc/logrotate.d/test_logrotate_title').with_content(/lastaction\n\s+\/usr\/bin\/systemctl restart syslog/m) }
             else
-              it { is_expected.to create_file('/etc/logrotate.d/test_logrotate_title').with_content(/lastaction\n.*\/sbin\/service syslog restart/) }
+              it { is_expected.to create_file('/etc/logrotate.d/test_logrotate_title').with_content(/lastaction\n\s+\/sbin\/service syslog restart/m) }
             end
           end
         end
@@ -54,7 +54,7 @@ describe 'logrotate::rule' do
             :lastaction  => 'this is a lastaction'
           }}
           it { is_expected.to compile.with_all_deps }
-          it { is_expected.to create_file('/etc/logrotate.d/test_logrotate_title').with_content(/lastaction\n.*this is a lastaction/) }
+          it { is_expected.to create_file('/etc/logrotate.d/test_logrotate_title').with_content(/lastaction\n\s+this is a lastaction/m) }
         end
       end
     end

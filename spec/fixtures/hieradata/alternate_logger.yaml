@@ -1,2 +1,2 @@
 ---
-logrotate::rule::logger_service: 'syslog'
+logrotate::logger_service: 'syslog'

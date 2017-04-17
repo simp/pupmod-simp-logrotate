@@ -44,14 +44,16 @@
 # @param firstaction
 # @param lastaction
 #
-# @param logger_service
-#   The name of the service which will be restarted as a lastaction, if
-#   no $lastaction is passed, and $lastaction_restart_logger is true.
-#   Defaults to rsyslog.
-#
 # @param lastaction_restart_logger
-#   If no $lastaction is passed, this will toggle restarting $logger_service
-#   as a lastaction.
+#   Restart ``$logger_service`` as a logrotate ``lastaction``
+#
+#   * Has no effect if ``$lastaction`` is set
+#
+# @param logger_service
+#   The name of the service which will be restarted as a logrotate ``lastaction``
+#
+#   * NOTE: This will default to ``rsyslog`` unless otherwise specified either
+#     in the call to the define or as ``logrotate::logger_service``
 #
 # @param rotate
 # @param size
@@ -88,8 +90,8 @@ define logrotate::rule (
   Optional[String]                                    $prerotate                 = undef,
   Optional[String]                                    $firstaction               = undef,
   Optional[String]                                    $lastaction                = undef,
-  Optional[String]                                    $logger_service            = lookup({'name' => 'logrotate::rule::logger_service', 'default_value' => 'rsyslog'}),
   Boolean                                             $lastaction_restart_logger = false,
+  Optional[String]                                    $logger_service            = lookup({'name' => 'logrotate::logger_service', 'default_value' => 'rsyslog'}),
   Integer[0]                                          $rotate                    = 4,
   Optional[Integer[0]]                                $size                      = undef,
   Boolean                                             $sharedscripts             = true,
