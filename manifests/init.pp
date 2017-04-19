@@ -40,19 +40,27 @@
 #
 #   * Overrides the ``maxsize`` setting
 #
+# @param logger_service
+#   The service that controls system logging
+#
+#   * This is used by the ``logrotate::rule`` define to note the name of the
+#     service to be restarted if, and only if, the default lastaction is
+#     enabled.
+#
 # @author Trevor Vaughan <tvaughan@onyxpoint.com>
 #
 class logrotate (
-  Enum['daily','weekly','monthly','yearly'] $rotate_period = 'weekly',
-  Integer[0]                                $rotate        = 4,
-  Boolean                                   $create        = true,
-  Boolean                                   $compress      = true,
-  Array[Stdlib::Absolutepath]               $include_dirs  = [],
-  Boolean                                   $manage_wtmp   = true,
-  Boolean                                   $dateext       = true,
-  String                                    $dateformat    = '-%Y%m%d.%s',
-  Optional[Pattern['^\d+(k|M|G)?$']]        $maxsize       = undef,
-  Optional[Pattern['^\d+(k|M|G)?$']]        $minsize       = undef
+  Enum['daily','weekly','monthly','yearly'] $rotate_period  = 'weekly',
+  Integer[0]                                $rotate         = 4,
+  Boolean                                   $create         = true,
+  Boolean                                   $compress       = true,
+  Array[Stdlib::Absolutepath]               $include_dirs   = [],
+  Boolean                                   $manage_wtmp    = true,
+  Boolean                                   $dateext        = true,
+  String                                    $dateformat     = '-%Y%m%d.%s',
+  Optional[Pattern['^\d+(k|M|G)?$']]        $maxsize        = undef,
+  Optional[Pattern['^\d+(k|M|G)?$']]        $minsize        = undef,
+  String                                    $logger_service = 'rsyslog'
 ) {
   package { 'logrotate': ensure => 'latest' }
 

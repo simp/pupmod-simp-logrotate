@@ -1,6 +1,6 @@
 {
   "name": "simp-logrotate",
-  "version": "6.0.0",
+  "version": "6.1.0",
   "author": "SIMP Team",
   "summary": "configure SIMP logrotate",
   "license": "Apache-2.0",
@@ -41,10 +41,6 @@
     {
       "name": "puppet",
       "version_requirement": "4.x"
-    },
-    {
-      "name": "pe",
-      "version_requirement": ">= 2016.2.0"
     }
   ],
   "operatingsystem_support": [

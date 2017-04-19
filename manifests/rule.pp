@@ -43,6 +43,18 @@
 # @param prerotate
 # @param firstaction
 # @param lastaction
+#
+# @param lastaction_restart_logger
+#   Restart ``$logger_service`` as a logrotate ``lastaction``
+#
+#   * Has no effect if ``$lastaction`` is set
+#
+# @param logger_service
+#   The name of the service which will be restarted as a logrotate ``lastaction``
+#
+#   * NOTE: This will default to ``rsyslog`` unless otherwise specified either
+#     in the call to the define or as ``logrotate::logger_service``
+#
 # @param rotate
 # @param size
 # @param sharedscripts
@@ -53,37 +65,55 @@
 #
 define logrotate::rule (
   Array[String]                                       $log_files,
-  Boolean                                             $compress        = true,
-  Optional[String]                                    $compresscmd     = undef,
-  Optional[String]                                    $uncompresscmd   = undef,
-  Optional[String]                                    $compressext     = undef,
-  Optional[String]                                    $compressoptions = undef,
-  Boolean                                             $copy            = false,
-  Boolean                                             $copytruncate    = false,
-  Pattern['\d{4} .+ .+']                              $create          = '0640 root root',
-  Optional[Enum['daily','weekly','monthly','yearly']] $rotate_period   = undef,
-  Boolean                                             $dateext         = true,
-  String                                              $dateformat      = '-%Y%m%d.%s',
-  Optional[Boolean]                                   $delaycompress   = undef,
-  Optional[String]                                    $extension       = undef,
-  Boolean                                             $ifempty         = false,
-  Array[String]                                       $ext_include     = [],
-  Optional[Simplib::EmailAddress]                     $mail            = undef,
-  Boolean                                             $maillast        = true,
-  Optional[Integer[0]]                                $maxage          = undef,
-  Optional[Integer[0]]                                $minsize         = undef,
-  Boolean                                             $missingok       = false,
-  Optional[Stdlib::Absolutepath]                      $olddir          = undef,
-  Optional[String]                                    $postrotate      = undef,
-  Optional[String]                                    $prerotate       = undef,
-  Optional[String]                                    $firstaction     = undef,
-  Optional[String]                                    $lastaction      = undef,
-  Integer[0]                                          $rotate          = 4,
-  Optional[Integer[0]]                                $size            = undef,
-  Boolean                                             $sharedscripts   = true,
-  Integer[0]                                          $start           = 1,
-  Array[String]                                       $tabooext        = []
+  Boolean                                             $compress                  = true,
+  Optional[String]                                    $compresscmd               = undef,
+  Optional[String]                                    $uncompresscmd             = undef,
+  Optional[String]                                    $compressext               = undef,
+  Optional[String]                                    $compressoptions           = undef,
+  Boolean                                             $copy                      = false,
+  Boolean                                             $copytruncate              = false,
+  Pattern['\d{4} .+ .+']                              $create                    = '0640 root root',
+  Optional[Enum['daily','weekly','monthly','yearly']] $rotate_period             = undef,
+  Boolean                                             $dateext                   = true,
+  String                                              $dateformat                = '-%Y%m%d.%s',
+  Optional[Boolean]                                   $delaycompress             = undef,
+  Optional[String]                                    $extension                 = undef,
+  Boolean                                             $ifempty                   = false,
+  Array[String]                                       $ext_include               = [],
+  Optional[Simplib::EmailAddress]                     $mail                      = undef,
+  Boolean                                             $maillast                  = true,
+  Optional[Integer[0]]                                $maxage                    = undef,
+  Optional[Integer[0]]                                $minsize                   = undef,
+  Boolean                                             $missingok                 = false,
+  Optional[Stdlib::Absolutepath]                      $olddir                    = undef,
+  Optional[String]                                    $postrotate                = undef,
+  Optional[String]                                    $prerotate                 = undef,
+  Optional[String]                                    $firstaction               = undef,
+  Optional[String]                                    $lastaction                = undef,
+  Boolean                                             $lastaction_restart_logger = false,
+  Optional[String]                                    $logger_service            = simplib::lookup('logrotate::logger_service', {'default_value' => 'rsyslog'}),
+  Integer[0]                                          $rotate                    = 4,
+  Optional[Integer[0]]                                $size                      = undef,
+  Boolean                                             $sharedscripts             = true,
+  Integer[0]                                          $start                     = 1,
+  Array[String]                                       $tabooext                  = []
 ) {
+
+  # Use the provided lastaction.  If none provided, determine if the
+  # logger_service should be restarted.
+  if !$lastaction {
+    if $lastaction_restart_logger {
+      $_restartcmd = ('systemd' in $facts['init_systems']) ? {
+        true    => "/usr/bin/systemctl restart ${logger_service}",
+        default => "/sbin/service ${logger_service} restart"
+      }
+      $_lastaction = "${_restartcmd} > /dev/null 2>&1 || true"
+    }
+  }
+  else {
+    $_lastaction = $lastaction
+  }
+
   file { "/etc/logrotate.d/${name}":
     owner   => 'root',
     group   => 'root',
