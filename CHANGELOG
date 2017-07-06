@@ -1,5 +1,6 @@
 * Thu Apr 13 2017 Nick Markowski <nmarkowski@keywcorp.com> - 6.1.0-0
 - Added lastaction logic to logrotate::rule.
+- Update puppet requirement and remove OBE pe requirement in metadata.json
 
 * Fri Dec 16 2016 Trevor Vaughan <tvaughan@onyxpoint.com> - 6.0.0-0
 - Updated for Puppet 4
