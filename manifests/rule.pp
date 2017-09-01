@@ -65,7 +65,7 @@
 #
 define logrotate::rule (
   Array[String]                                       $log_files,
-  Boolean                                             $compress                  = true,
+  Boolean                                             $compress                  = $logrotate::compress,
   Optional[String]                                    $compresscmd               = undef,
   Optional[String]                                    $uncompresscmd             = undef,
   Optional[String]                                    $compressext               = undef,
@@ -74,7 +74,7 @@ define logrotate::rule (
   Boolean                                             $copytruncate              = false,
   Pattern['\d{4} .+ .+']                              $create                    = '0640 root root',
   Optional[Enum['daily','weekly','monthly','yearly']] $rotate_period             = undef,
-  Boolean                                             $dateext                   = true,
+  Boolean                                             $dateext                   = $logrotate::dateext,
   String                                              $dateformat                = '-%Y%m%d.%s',
   Optional[Boolean]                                   $delaycompress             = undef,
   Optional[String]                                    $extension                 = undef,
@@ -92,12 +92,14 @@ define logrotate::rule (
   Optional[String]                                    $lastaction                = undef,
   Boolean                                             $lastaction_restart_logger = false,
   Optional[String]                                    $logger_service            = simplib::lookup('logrotate::logger_service', {'default_value' => 'rsyslog'}),
-  Integer[0]                                          $rotate                    = 4,
+  Integer[0]                                          $rotate                    = $logrotate::rotate,
   Optional[Integer[0]]                                $size                      = undef,
   Boolean                                             $sharedscripts             = true,
   Integer[0]                                          $start                     = 1,
   Array[String]                                       $tabooext                  = []
 ) {
+
+  include '::logrotate'
 
   # Use the provided lastaction.  If none provided, determine if the
   # logger_service should be restarted.
