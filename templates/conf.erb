@@ -2,7 +2,7 @@
 # Any changes that you make will be reverted on the next puppet run.
 
 <%  Array(@log_files).each do |_file| -%>"<%= _file %>" <% end -%> {
-<%  unless @compress -%>
+<%  unless @_compress -%>
     nocompress
 <%  else -%>
     compress
@@ -38,9 +38,11 @@
 <%  if @rotate_period -%>
     <%= @rotate_period %>
 <%  end -%>
-<%  if @dateext -%>
+<%  if @_dateext -%>
     dateext
     dateformat <%= @dateformat %>
+<%  else -%>
+    nodateext
 <%  end -%>
 <%  if @extension -%>
     extension <%= @extension %>
@@ -96,7 +98,7 @@
 <%= "\t\t#{@_lastaction}" %>
     endscript
 <%  end -%>
-    rotate <%= @rotate %>
+    rotate <%= @_rotate.to_s %>
 <%  if @size -%>
     size <%= @size %>
 <%  end -%>

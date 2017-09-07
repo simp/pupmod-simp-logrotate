@@ -6,6 +6,7 @@ describe 'logrotate::rule' do
       context "on #{os}" do
 
         let(:title) {'test_logrotate_title'}
+        let(:pre_condition) { 'include "logrotate"' }
         let(:facts) { facts }
 
         context 'without a lastaction specified and lastaction_restart_logger = false' do
@@ -55,6 +56,25 @@ describe 'logrotate::rule' do
           }}
           it { is_expected.to compile.with_all_deps }
           it { is_expected.to create_file('/etc/logrotate.d/test_logrotate_title').with_content(/lastaction\n\s+this is a lastaction/m) }
+        end
+        context 'with default params' do
+          let(:params) {{
+            :log_files => ['test1.log', 'test2.log'],
+          }}
+          let(:pre_condition) { 'include "logrotate"' }
+          it { is_expected.to compile.with_all_deps }
+          it { is_expected.to create_file('/etc/logrotate.d/test_logrotate_title').with_content(/^\s*dateext\n/m) }
+          it { is_expected.to create_file('/etc/logrotate.d/test_logrotate_title').with_content(/^\s*rotate\s+4\n/m) }
+        end
+        context 'with non default parameters' do
+          let(:params) {{
+            :log_files => ['test1.log', 'test2.log'],
+            :dateext   => false,
+            :rotate    => 5
+          }}
+          it { is_expected.to compile.with_all_deps }
+          it { is_expected.to create_file('/etc/logrotate.d/test_logrotate_title').with_content(/^\s*nodateext\n/m) }
+          it { is_expected.to create_file('/etc/logrotate.d/test_logrotate_title').with_content(/^\s*rotate\s+5\n/m) }
         end
       end
     end

@@ -12,9 +12,11 @@ compress
 <% if @dateext -%>
 dateext
 dateformat <%= @dateformat %>
+<%  else -%>
+nodateext
 <% end -%>
 <%
-  (['/etc/logrotate.d'] + Array(@include_dirs)).flatten.each do |_dir|
+  ([@configdir] + Array(@include_dirs)).flatten.each do |_dir|
 -%>
 include <%= _dir %>
 <% end -%>

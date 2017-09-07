@@ -1,3 +1,8 @@
+* Fri Sep 01 2017 Jeanne Greulich <jeanne.greulich@onyxpoint.com> - 6.1.1-0
+- Updated the defaults  settings for compress, rotate and dateext in rule.pp
+  to pull values from init.pp. (They were hard coded to them before)
+- changed templates to add nodateext if dateext is set to false.
+
 * Thu Apr 13 2017 Nick Markowski <nmarkowski@keywcorp.com> - 6.1.0-0
 - Added lastaction logic to logrotate::rule.
 - Update puppet requirement and remove OBE pe requirement in metadata.json

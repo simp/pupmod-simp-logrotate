@@ -15,6 +15,7 @@
 #   The log file strings for all logs to be affected by this stanza
 #
 # @param compress
+#   If undefined it defaults to the setting in logrotate.
 # @param compresscmd
 # @param uncompresscmd
 # @param compressext
@@ -24,6 +25,9 @@
 # @param create
 # @param rotate_period
 # @param dateext
+#   If set to true log files will be rotated using a date extension.
+#   If false nodateext is set and rotated logs use a number extension.
+#   If undefined it defaults to the setting in logrotate
 # @param dateformat
 # @param delaycompress
 # @param extension
@@ -56,6 +60,8 @@
 #     in the call to the define or as ``logrotate::logger_service``
 #
 # @param rotate
+#   The number of old log files to keep.
+#   If undefined it defaults to the setting in logrotate
 # @param size
 # @param sharedscripts
 # @param start
@@ -65,7 +71,7 @@
 #
 define logrotate::rule (
   Array[String]                                       $log_files,
-  Boolean                                             $compress                  = true,
+  Optional[Boolean]                                   $compress                  = undef,
   Optional[String]                                    $compresscmd               = undef,
   Optional[String]                                    $uncompresscmd             = undef,
   Optional[String]                                    $compressext               = undef,
@@ -74,7 +80,7 @@ define logrotate::rule (
   Boolean                                             $copytruncate              = false,
   Pattern['\d{4} .+ .+']                              $create                    = '0640 root root',
   Optional[Enum['daily','weekly','monthly','yearly']] $rotate_period             = undef,
-  Boolean                                             $dateext                   = true,
+  Optional[Boolean]                                   $dateext                   = undef,
   String                                              $dateformat                = '-%Y%m%d.%s',
   Optional[Boolean]                                   $delaycompress             = undef,
   Optional[String]                                    $extension                 = undef,
@@ -92,12 +98,14 @@ define logrotate::rule (
   Optional[String]                                    $lastaction                = undef,
   Boolean                                             $lastaction_restart_logger = false,
   Optional[String]                                    $logger_service            = simplib::lookup('logrotate::logger_service', {'default_value' => 'rsyslog'}),
-  Integer[0]                                          $rotate                    = 4,
+  Optional[Integer[0]]                                $rotate                    = undef,
   Optional[Integer[0]]                                $size                      = undef,
   Boolean                                             $sharedscripts             = true,
   Integer[0]                                          $start                     = 1,
   Array[String]                                       $tabooext                  = []
 ) {
+
+  include '::logrotate'
 
   # Use the provided lastaction.  If none provided, determine if the
   # logger_service should be restarted.
@@ -114,7 +122,19 @@ define logrotate::rule (
     $_lastaction = $lastaction
   }
 
-  file { "/etc/logrotate.d/${name}":
+  $_dateext =  $dateext ? {
+    undef   => $logrotate::dateext,
+    default => $dateext }
+
+  $_compress =  $compress ? {
+    undef   => $logrotate::compress,
+    default => $compress }
+
+  $_rotate =  $rotate ? {
+    undef   => $logrotate::rotate,
+    default => $rotate }
+
+  file { "${logrotate::configdir}/${name}":
     owner   => 'root',
     group   => 'root',
     mode    => '0644',

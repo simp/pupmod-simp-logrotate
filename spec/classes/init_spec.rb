@@ -10,7 +10,15 @@ describe 'logrotate' do
         it { is_expected.to create_class('logrotate') }
         it { is_expected.to create_file('/etc/logrotate.conf').with_content(/weekly/) }
         it { is_expected.to create_file('/etc/logrotate.d').with_ensure('directory') }
-        it { is_expected.to contain_package('logrotate').with_ensure('latest') }
+        it { is_expected.to contain_package('logrotate').with_ensure('installed') }
+
+        context "dateext set to false" do
+          let(:params) {{
+            :dateext => false
+          }}
+
+          it { is_expected.to create_file('/etc/logrotate.conf').with_content(/nodateext/)}
+        end
       end
     end
   end
