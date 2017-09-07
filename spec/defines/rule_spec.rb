@@ -66,7 +66,7 @@ describe 'logrotate::rule' do
           it { is_expected.to create_file('/etc/logrotate.d/test_logrotate_title').with_content(/^\s*dateext\n/m) }
           it { is_expected.to create_file('/etc/logrotate.d/test_logrotate_title').with_content(/^\s*rotate\s+4\n/m) }
         end
-        context 'with dateext set to false' do
+        context 'with non default parameters' do
           let(:params) {{
             :log_files => ['test1.log', 'test2.log'],
             :dateext   => false,

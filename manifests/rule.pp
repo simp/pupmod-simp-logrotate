@@ -15,6 +15,7 @@
 #   The log file strings for all logs to be affected by this stanza
 #
 # @param compress
+#   If undefined it defaults to the setting in logrotate.
 # @param compresscmd
 # @param uncompresscmd
 # @param compressext
@@ -24,6 +25,9 @@
 # @param create
 # @param rotate_period
 # @param dateext
+#   If set to true log files will be rotated using a date extension.
+#   If false nodateext is set and rotated logs use a number extension.
+#   If undefined it defaults to the setting in logrotate
 # @param dateformat
 # @param delaycompress
 # @param extension
@@ -56,6 +60,8 @@
 #     in the call to the define or as ``logrotate::logger_service``
 #
 # @param rotate
+#   The number of old log files to keep.
+#   If undefined it defaults to the setting in logrotate
 # @param size
 # @param sharedscripts
 # @param start
@@ -101,15 +107,6 @@ define logrotate::rule (
 
   include '::logrotate'
 
-  if !defined(File['/etc/logrotate.d']) {
-    file { '/etc/logrotate.d':
-      ensure => 'directory',
-      owner  => 'root',
-      group  => 'root',
-      mode   => '0644'
-    }
-  }
-
   # Use the provided lastaction.  If none provided, determine if the
   # logger_service should be restarted.
   if !$lastaction {
@@ -137,7 +134,7 @@ define logrotate::rule (
     undef   => $logrotate::rotate,
     default => $rotate }
 
-  file { "/etc/logrotate.d/${name}":
+  file { "${logrotate::configdir}/${name}":
     owner   => 'root',
     group   => 'root',
     mode    => '0644',

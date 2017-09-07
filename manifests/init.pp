@@ -15,10 +15,13 @@
 # @param compress
 #   Compress the logs upon rotation
 #
+# @param configdir
+#   The primary directory for configuration files.
+#
 # @param include_dirs
 #   Directories to include in your logrotate configuration
 #
-#   * ``/etc/logrotate.d`` is always included
+#   * ``$logrotate::configdir`` is always included
 #
 # @param manage_wtmp
 #   Set to ``false`` if you do not want ``/var/log/wtmp`` to be managed by
@@ -40,6 +43,9 @@
 #
 #   * Overrides the ``maxsize`` setting
 #
+# @param package_ensure
+#   The ensure status of packages to be installed
+#
 # @param logger_service
 #   The service that controls system logging
 #
@@ -55,6 +61,7 @@ class logrotate (
   Boolean                                   $create         = true,
   Boolean                                   $compress       = true,
   Array[Stdlib::Absolutepath]               $include_dirs   = [],
+  Stdlib::Absolutepath                      $configdir      = '/etc/logrotate.d',
   Boolean                                   $manage_wtmp    = true,
   Boolean                                   $dateext        = true,
   String                                    $dateformat     = '-%Y%m%d.%s',
@@ -74,12 +81,10 @@ class logrotate (
     content => template("${module_name}/logrotate.conf.erb")
   }
 
-  if !defined(File['/etc/logrotate.d']) {
-    file { '/etc/logrotate.d':
-      ensure => 'directory',
-      owner  => 'root',
-      group  => 'root',
-      mode   => '0644'
-    }
+  file { "${configdir}":
+    ensure => 'directory',
+    owner  => 'root',
+    group  => 'root',
+    mode   => '0644'
   }
 }
