@@ -60,9 +60,11 @@ class logrotate (
   String                                    $dateformat     = '-%Y%m%d.%s',
   Optional[Pattern['^\d+(k|M|G)?$']]        $maxsize        = undef,
   Optional[Pattern['^\d+(k|M|G)?$']]        $minsize        = undef,
+  String                                    $package_ensure = simplib::lookup('simp_options::package_ensure', { 'default_value' => 'installed' }),
   String                                    $logger_service = 'rsyslog'
+
 ) {
-  package { 'logrotate': ensure => 'latest' }
+  package { 'logrotate': ensure => $package_ensure }
 
   file { '/etc/logrotate.conf':
     ensure  => 'file',
@@ -72,10 +74,12 @@ class logrotate (
     content => template("${module_name}/logrotate.conf.erb")
   }
 
-  file { '/etc/logrotate.d':
-    ensure => 'directory',
-    owner  => 'root',
-    group  => 'root',
-    mode   => '0644'
+  if !defined(File['/etc/logrotate.d']) {
+    file { '/etc/logrotate.d':
+      ensure => 'directory',
+      owner  => 'root',
+      group  => 'root',
+      mode   => '0644'
+    }
   }
 }
