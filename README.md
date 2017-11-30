@@ -24,6 +24,12 @@ Use `logrotate::rule` for specific configuration options.
 
 ### What logrotate affects
 
+Manages the following:
+
+* `logrotate` package
+* `/etc/logrotate.conf` file
+* `/etc/logrotate.d` directory and its contents
+
 ### Setup Requirements
 
 This module requires the following:
