@@ -8,7 +8,6 @@
 2. [Setup - The basics of getting started with logrotate](#setup)
     * [What logrotate affects](#what-logrotate-affects)
     * [Setup requirements](#setup-requirements)
-    * [Beginning with logrotate](#beginning-with-logrotate)
 3. [Usage - Configuration options and additional functionality](#usage)
 4. [Reference](#reference)
 5. [Limitations - OS compatibility, etc.](#limitations)
@@ -36,8 +35,6 @@ This module requires the following:
 
 * [puppetlabs-stdlib](https://forge.puppet.com/puppetlabs/stdlib)
 * [simp-simplib](https://forge.puppet.com/simp/simplib)
-
-### Beginning with logrotate
 
 ## Usage
 
