@@ -1,3 +1,6 @@
+* Thu Nov 30 2017 Steven Pritchard <steven.pritchard@onyxpoint.com> - 6.1.2-0
+- Update README.md from puppet strings
+
 * Fri Sep 01 2017 Jeanne Greulich <jeanne.greulich@onyxpoint.com> - 6.1.1-0
 - Updated the defaults  settings for compress, rotate and dateext in rule.pp
   to pull values from init.pp. (They were hard coded to them before)
