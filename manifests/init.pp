@@ -64,13 +64,15 @@ class logrotate (
   Stdlib::Absolutepath                      $configdir      = '/etc/logrotate.d',
   Boolean                                   $manage_wtmp    = true,
   Boolean                                   $dateext        = true,
-  String                                    $dateformat     = '-%Y%m%d.%s',
+  String[1]                                 $dateformat     = '-%Y%m%d.%s',
   Optional[Pattern['^\d+(k|M|G)?$']]        $maxsize        = undef,
   Optional[Pattern['^\d+(k|M|G)?$']]        $minsize        = undef,
-  String                                    $package_ensure = simplib::lookup('simp_options::package_ensure', { 'default_value' => 'installed' }),
-  String                                    $logger_service = 'rsyslog'
-
+  String[1]                                 $package_ensure = simplib::lookup('simp_options::package_ensure', { 'default_value' => 'installed' }),
+  String[1]                                 $logger_service = 'rsyslog'
 ) {
+
+  simplib::assert_metadata($module_name)
+
   package { 'logrotate': ensure => $package_ensure }
 
   file { '/etc/logrotate.conf':

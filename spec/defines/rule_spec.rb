@@ -25,7 +25,7 @@ describe 'logrotate::rule' do
           }}
           it { is_expected.to compile.with_all_deps }
           it { is_expected.to create_file('/etc/logrotate.d/test_logrotate_title').with_content(/test1\.log.*test2\.log/) }
-          if (['RedHat', 'CentOS'].include?(facts[:operatingsystem]))
+          if (['RedHat', 'CentOS', 'OracleLinux'].include?(facts[:operatingsystem]))
             if (facts[:operatingsystemmajrelease].to_s >= '7')
               it { is_expected.to create_file('/etc/logrotate.d/test_logrotate_title').with_content(/lastaction\n\s+\/usr\/bin\/systemctl restart rsyslog/m) }
             else
@@ -40,7 +40,7 @@ describe 'logrotate::rule' do
             :lastaction_restart_logger => true
           }}
           let(:hieradata) { 'alternate_logger' }
-          if (['RedHat', 'CentOS'].include?(facts[:operatingsystem]))
+          if (['RedHat', 'CentOS', 'OracleLinux'].include?(facts[:operatingsystem]))
             if (facts[:operatingsystemmajrelease].to_s >= '7')
               it { is_expected.to create_file('/etc/logrotate.d/test_logrotate_title').with_content(/lastaction\n\s+\/usr\/bin\/systemctl restart syslog/m) }
             else
