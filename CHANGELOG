@@ -1,3 +1,9 @@
+* Mon Jul 02 2018 Liz Nemsick <lnemsick.simp@gmail.com> - 6.2.0-0
+- Move SIMP-specific logrotate rules to a SIMP-managed configuration
+  directory, /etc/logrotate.simp.d, and ensure logrotate processes
+  that directory first. This ensures SIMP rules take priority, when
+  duplicate rules are specified.
+
 * Thu Nov 30 2017 Steven Pritchard <steven.pritchard@onyxpoint.com> - 6.1.2-0
 - Update README.md from puppet strings
 
