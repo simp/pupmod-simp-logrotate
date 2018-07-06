@@ -1,0 +1,66 @@
+require 'spec_helper_acceptance'
+
+test_name 'logrotate'
+
+describe 'logrotate class' do
+
+  hosts.each do |host|
+    context "on #{host}" do
+      let(:manifest) {
+        <<-EOS
+          include logrotate
+        EOS
+      }
+
+      let(:manifest_with_rule) {
+        <<-EOS
+          # explicitly turn off compression globally, so we can see
+          # that our specific syslog rule that has compression enabled
+          # is being run, instead of the default rule which does not
+          # have compression
+          class { 'logrotate': compress => false }
+
+          # this supercedes /etc/logrotate.d/syslog
+          logrotate::rule { 'syslog':
+            log_files                 => [ '/var/log/messages' ],
+            rotate_period             => 'daily',
+            rotate                    => 7,
+            lastaction_restart_logger => true,
+            missingok                 => true,
+            compress                  => true
+          }
+        EOS
+      }
+
+      it 'should work with default values' do
+        apply_manifest_on(host, manifest, catch_failures: true)
+      end
+
+      it 'should be idempotent' do
+        apply_manifest_on(host, manifest, catch_changes: true)
+      end
+
+      it 'should create SIMP-specific logrotate rule' do
+        apply_manifest_on(host, manifest_with_rule, catch_failures: true)
+      end
+
+      it 'should be idempotent with SIMP-specific logrotate rule' do
+        apply_manifest_on(host, manifest_with_rule, catch_changes: true)
+      end
+
+      it 'logrotate should use SIMP rule in lieu of overlapping system rule' do
+        # make sure our assumptions about the default rule are correct
+        result = on(host, 'grep -l /var/log/messages /etc/logrotate.d/*')
+        on(host, "egrep ^compress #{result.stdout.split("\n").first.strip}",
+          :acceptable_exit_codes => [1]
+        )
+
+        result = on(host, 'logrotate -f /etc/logrotate.conf')
+
+        expect(result.stderr).to match(%r(duplicate log entry for /var/log/messages))
+        on(host, 'ls -l /var/log/messages*')
+        on(host, 'ls -l /var/log/messages-[0-9]*\.[0-9]*\.gz')
+      end
+    end
+  end
+end

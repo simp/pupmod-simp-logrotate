@@ -16,12 +16,14 @@
 #   Compress the logs upon rotation
 #
 # @param configdir
-#   The primary directory for configuration files.
+#   The primary directory for SIMP-managed configuration files.
 #
 # @param include_dirs
 #   Directories to include in your logrotate configuration
 #
-#   * ``$logrotate::configdir`` is always included
+#   * ``$logrotate::configdir`` is always included and is listed first
+#   * Be sure to include ``/etc/logrotate.d`` in this list if you
+#     override the default.
 #
 # @param manage_wtmp
 #   Set to ``false`` if you do not want ``/var/log/wtmp`` to be managed by
@@ -53,15 +55,16 @@
 #     service to be restarted if, and only if, the default lastaction is
 #     enabled.
 #
-# @author Trevor Vaughan <tvaughan@onyxpoint.com>
+# @author https://github.com/simp/pupmod-simp-logrotate/graphs/contributors
+#
 #
 class logrotate (
   Enum['daily','weekly','monthly','yearly'] $rotate_period  = 'weekly',
   Integer[0]                                $rotate         = 4,
   Boolean                                   $create         = true,
   Boolean                                   $compress       = true,
-  Array[Stdlib::Absolutepath]               $include_dirs   = [],
-  Stdlib::Absolutepath                      $configdir      = '/etc/logrotate.d',
+  Array[Stdlib::Absolutepath]               $include_dirs   = [ '/etc/logrotate.d' ],
+  Stdlib::Absolutepath                      $configdir      = '/etc/logrotate.simp.d',
   Boolean                                   $manage_wtmp    = true,
   Boolean                                   $dateext        = true,
   String                                    $dateformat     = '-%Y%m%d.%s',
@@ -81,10 +84,14 @@ class logrotate (
     content => template("${module_name}/logrotate.conf.erb")
   }
 
-  file { "${configdir}":
-    ensure => 'directory',
-    owner  => 'root',
-    group  => 'root',
-    mode   => '0644'
+  # This is where the custom rules will go. They will be purged if not managed!
+  file { $configdir:
+    ensure  => 'directory',
+    owner   => 'root',
+    group   => 'root',
+    recurse => true,
+    purge   => true,
+    force   => true,
+    mode    => '0750'
   }
 }
