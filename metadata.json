@@ -1,6 +1,6 @@
 {
   "name": "simp-logrotate",
-  "version": "6.2.0",
+  "version": "6.2.1",
   "author": "SIMP Team",
   "summary": "configure SIMP logrotate",
   "license": "Apache-2.0",

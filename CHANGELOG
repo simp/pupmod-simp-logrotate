@@ -1,3 +1,6 @@
+* Sat Mar 17 2018 Trevor Vaughan <tvaughan@onyxpoint.com> - 6.2.1-0
+- Added OEL and Puppet 5 support
+
 * Mon Jul 02 2018 Liz Nemsick <lnemsick.simp@gmail.com> - 6.2.0-0
 - Move SIMP-specific logrotate rules to a SIMP-managed configuration
   directory, /etc/logrotate.simp.d, and ensure logrotate processes
