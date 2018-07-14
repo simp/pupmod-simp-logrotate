@@ -14,11 +14,7 @@
 .cache_bundler: &cache_bundler
   cache:
     untracked: true
-<<<<<<< HEAD
     # A broad attempt at caching between runs (ala Travis CI)
-=======
-    # An attempt at caching between runs (ala Travis CI)
->>>>>>> master
     key: "${CI_PROJECT_NAMESPACE}__bundler"
     paths:
       - '.vendor'
@@ -26,10 +22,7 @@
 
 .setup_bundler_env: &setup_bundler_env
   before_script:
-<<<<<<< HEAD
     - 'echo Files in cache: $(find .vendor | wc -l) || :'
-=======
->>>>>>> master
     - 'export GEM_HOME=.vendor/gem_install'
     - 'export BUNDLE_CACHE_PATH=.vendor/bundler'
     - 'declare GEM_BUNDLER_VER=(-v ''~> ${BUNDLER_VERSION:-1.16.0}'')'
@@ -39,10 +32,6 @@
     - 'rm -rf pkg/ || :'
     - bundle check || rm -f Gemfile.lock && ("${BUNDLER_INSTALL[@]}" --local || "${BUNDLER_INSTALL[@]}")
 
-<<<<<<< HEAD
-
-=======
->>>>>>> master
 .validation_checks: &validation_checks
   script:
     - bundle exec rake syntax
