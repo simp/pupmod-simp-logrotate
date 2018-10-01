@@ -11,13 +11,13 @@ describe 'logrotate' do
 
         it do
           is_expected.to create_file('/etc/logrotate.simp.d').with( {
-           :ensure   => 'directory',
-           :owner    => 'root',
-           :group    => 'root',
-           :recurse  => true,
-           :purge    => true,
-           :force    => true,
-           :mode     => '0750'
+           :ensure  => 'directory',
+           :owner   => 'root',
+           :group   => 'root',
+           :recurse => true,
+           :purge   => true,
+           :force   => true,
+           :mode    => '0750'
           } )
         end
 

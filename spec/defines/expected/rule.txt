@@ -1,0 +1,19 @@
+# This file managed by puppet.
+# Any changes that you make will be reverted on the next puppet run.
+
+"test1.log" "test2.log"  {
+    compress
+    nodelaycompress
+    nocopy
+    nocopytruncate
+    create 0640 root root
+    dateext
+    dateformat -%Y%m%d.%s
+    notifempty
+    nomail
+    nomissingok
+    noolddir
+    rotate 4
+    sharedscripts
+    start 1
+}

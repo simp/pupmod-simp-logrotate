@@ -1,7 +1,7 @@
 # This file managed by puppet.
 # Any changes that you make will be reverted on the next puppet run.
 
-<%  Array(@log_files).each do |_file| -%>"<%= _file %>" <% end -%> {
+<% Array(@log_files).each do |_file| -%>"<%= _file %>" <% end -%> {
 <%  unless @_compress -%>
     nocompress
 <%  else -%>
@@ -41,6 +41,9 @@
 <%  if @_dateext -%>
     dateext
     dateformat <%= @dateformat %>
+<%    if @dateyesterday -%>
+    dateyesterday
+<%    end -%>
 <%  else -%>
     nodateext
 <%  end -%>
@@ -108,8 +111,20 @@
     nosharedscripts
 <%  end -%>
     start <%= @start %>
+<%  if @size -%>
+    size <%= @size %>
+<%  end -%>
+<%  if @shred -%>
+    shred
+<%    if @shredcycles -%>
+    shredcycles <%= @shredcycles.to_s %>
+<%    end -%>
+<%  end -%>
+<%  if @su && @su_user && @su_group -%>
+    su <%= @su_user %> <%= @su_group %>
+<%  end -%>
 }
-<% if @tabooext -%>
+<% unless (@tabooext.nil? || @tabooext.empty?) -%>
     tabooext + <%= Array(@tabooext).join(',') %>
 <% end -%>
 <% Array(@ext_include).flatten.each do |einc| -%>

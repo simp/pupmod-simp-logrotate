@@ -37,6 +37,9 @@
 #
 #   * Leaving as is allows for multiple rotations per day
 #
+# @param dateyesterday
+#  Say 'yesterday' instead of the date
+#
 # @param maxsize
 #   The default maximum size of a logfile
 #
@@ -59,24 +62,27 @@
 #
 #
 class logrotate (
-  Enum['daily','weekly','monthly','yearly'] $rotate_period  = 'weekly',
-  Integer[0]                                $rotate         = 4,
-  Boolean                                   $create         = true,
-  Boolean                                   $compress       = true,
-  Array[Stdlib::Absolutepath]               $include_dirs   = [ '/etc/logrotate.d' ],
-  Stdlib::Absolutepath                      $configdir      = '/etc/logrotate.simp.d',
-  Boolean                                   $manage_wtmp    = true,
-  Boolean                                   $dateext        = true,
-  String[1]                                 $dateformat     = '-%Y%m%d.%s',
-  Optional[Pattern['^\d+(k|M|G)?$']]        $maxsize        = undef,
-  Optional[Pattern['^\d+(k|M|G)?$']]        $minsize        = undef,
-  String[1]                                 $package_ensure = simplib::lookup('simp_options::package_ensure', { 'default_value' => 'installed' }),
-  String[1]                                 $logger_service = 'rsyslog'
+  Logrotate::Periods                 $rotate_period  = 'weekly',
+  Integer[0]                         $rotate         = 4,
+  Boolean                            $create         = true,
+  Boolean                            $compress       = true,
+  Array[Stdlib::Absolutepath]        $include_dirs   = [ '/etc/logrotate.d' ],
+  Stdlib::Absolutepath               $configdir      = '/etc/logrotate.simp.d',
+  Boolean                            $manage_wtmp    = true,
+  Boolean                            $dateext        = true,
+  String[1]                          $dateformat     = '-%Y%m%d.%s',
+  Optional[Boolean]                  $dateyesterday  = undef,
+  Optional[Pattern['^\d+(k|M|G)?$']] $maxsize        = undef,
+  Optional[Pattern['^\d+(k|M|G)?$']] $minsize        = undef,
+  String[1]                          $package_ensure = simplib::lookup('simp_options::package_ensure', { 'default_value' => 'installed' }),
+  String[1]                          $logger_service = 'rsyslog'
 ) {
 
   simplib::assert_metadata($module_name)
 
-  package { 'logrotate': ensure => $package_ensure }
+  package { 'logrotate':
+    ensure => $package_ensure
+  }
 
   file { '/etc/logrotate.conf':
     ensure  => 'file',
