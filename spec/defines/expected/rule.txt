@@ -16,4 +16,5 @@
     rotate 4
     sharedscripts
     start 1
+    noshred
 }

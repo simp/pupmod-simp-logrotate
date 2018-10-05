@@ -14,7 +14,6 @@ describe 'logrotate::rule' do
         }}
         let(:content) { File.read('spec/defines/expected/rule.txt') }
         it { is_expected.to compile.with_all_deps }
-        # it { is_expected.to create_file('/etc/logrotate.simp.d/test_logrotate_title').with_content(/test1\.log.*test2\.log/) }
         it { is_expected.to create_file('/etc/logrotate.simp.d/test_logrotate_title').with_content(content) }
         it { is_expected.to_not create_file('/etc/logrotate.simp.d/test_logrotate_title').with_content(/lastaction/) }
       end
@@ -73,6 +72,22 @@ describe 'logrotate::rule' do
         it { is_expected.to create_file('/etc/logrotate.simp.d/test_logrotate_title').with_content(/^\s*nodateext\n/m) }
         it { is_expected.to create_file('/etc/logrotate.simp.d/test_logrotate_title').with_content(/^\s*rotate\s+5\n/m) }
       end
+
+      context 'with su features' do
+        let(:params) {{
+          :log_files => ['test1.log', 'test2.log'],
+          :su        => true,
+          :su_user   => 'httpd',
+          :su_group  => 'httpd',
+        }}
+        if facts[:os][:release][:major].to_i == 6
+          it { is_expected.to compile.and_raise_error(/not available on EL6/) }
+        else
+          it { is_expected.to compile.with_all_deps }
+          it { is_expected.to create_file('/etc/logrotate.simp.d/test_logrotate_title').with_content(/^\s*su httpd httpd\n/m) }
+        end
+      end
+      # just need to add tests for $su and $shred
     end
   end
 end

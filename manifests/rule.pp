@@ -69,10 +69,12 @@
 # @param sharedscripts
 # @param shred
 # @param shredcycles
+# @param start
 # @param su
+#   Rotate logs as a different user and group. $su_user and $su_group are
+#   required if this is set to true.
 # @param su_user
 # @param su_group
-# @param start
 # @param tabooext
 #
 # @author Trevor Vaughan <tvaughan@onyxpoint.com>
@@ -94,7 +96,7 @@ define logrotate::rule (
   Optional[Boolean]               $delaycompress             = undef,
   Optional[String[1]]             $extension                 = undef,
   Boolean                         $ifempty                   = false,
-  Array[String[1]]                $ext_include               = [],
+  Optional[Array[String[1]]]      $ext_include               = undef,
   Optional[Simplib::EmailAddress] $mail                      = undef,
   Boolean                         $maillast                  = true,
   Optional[Integer[0]]            $maxage                    = undef,
@@ -116,7 +118,7 @@ define logrotate::rule (
   Optional[String[1]]             $su_user                   = undef,
   Optional[String[1]]             $su_group                  = undef,
   Integer[0]                      $start                     = 1,
-  Array[String[1]]                $tabooext                  = [],
+  Optional[Array[String[1]]]      $tabooext                  = undef,
 ) {
 
   include 'logrotate'
@@ -134,6 +136,19 @@ define logrotate::rule (
   }
   else {
     $_lastaction = $lastaction
+  }
+
+  if $su {
+    if $facts['os']['release']['major'] <= '6' {
+      fail('logrotate: the $su option is not available on EL6')
+    }
+    if ($su_user =~ Undef or $su_group =~ Undef) {
+      fail('logrotate: if $su is specified, $su_user and $su_group must not be empty')
+    }
+    $_su_line = "su ${su_user} ${su_group}"
+  }
+  else {
+    $_su_line = undef
   }
 
   $_dateext =  $dateext ? {

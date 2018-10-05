@@ -119,12 +119,14 @@
 <%    if @shredcycles -%>
     shredcycles <%= @shredcycles.to_s %>
 <%    end -%>
+<%  else -%>
+    noshred
 <%  end -%>
-<%  if @su && @su_user && @su_group -%>
-    su <%= @su_user %> <%= @su_group %>
+<%  if @_su_line -%>
+  <%= @_su_line %>
 <%  end -%>
 }
-<% unless (@tabooext.nil? || @tabooext.empty?) -%>
+<% unless @tabooext.nil? -%>
     tabooext + <%= Array(@tabooext).join(',') %>
 <% end -%>
 <% Array(@ext_include).flatten.each do |einc| -%>
