@@ -1,10 +1,11 @@
 * Mon Oct 01 2018 Nick Miller <nick.miller@onyxpoint.com> - 6.3.0-0
 - Added OEL and Puppet 5 support
 - Add some previously impossible to configure options
-  - su and su_user and su_group (inapplicable on EL6)
   - the hourly rotate period
+  - dateyesterday
   - shred and shredcycles
-- Added Logrotate::Periods type alias which now supports hourly rotation
+  - su and su_user and su_group (inapplicable on EL6)
+- Added Logrotate::Periods type alias which allows hourly rotation
 
 * Mon Jul 02 2018 Liz Nemsick <lnemsick.simp@gmail.com> - 6.2.0-0
 - Move SIMP-specific logrotate rules to a SIMP-managed configuration
