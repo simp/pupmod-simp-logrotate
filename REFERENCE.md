@@ -304,12 +304,12 @@ Default value: `false`
 
 ##### `ext_include`
 
-Data type: `Array[String[1]]`
+Data type: `Optional[Array[String[1]]]`
 
 Corresponds to the ``include`` logrotate configuration since it is a
 reserved word in Puppet
 
-Default value: []
+Default value: `undef`
 
 ##### `mail`
 
@@ -453,11 +453,20 @@ Data type: `Optional[Integer[0]]`
 
 Default value: `undef`
 
+##### `start`
+
+Data type: `Integer[0]`
+
+
+
+Default value: 1
+
 ##### `su`
 
 Data type: `Boolean`
 
-
+Rotate logs as a different user and group. $su_user and $su_group are
+required if this is set to true. Ignored on EL6.
 
 Default value: `false`
 
@@ -477,19 +486,11 @@ Data type: `Optional[String[1]]`
 
 Default value: `undef`
 
-##### `start`
-
-Data type: `Integer[0]`
-
-
-
-Default value: 1
-
 ##### `tabooext`
 
-Data type: `Array[String[1]]`
+Data type: `Optional[Array[String[1]]]`
 
 
 
-Default value: []
+Default value: `undef`
 
