@@ -12,7 +12,10 @@ compress
 <% if @dateext -%>
 dateext
 dateformat <%= @dateformat %>
-<%  else -%>
+<%   if @dateyesterday -%>
+    dateyesterday
+<%   end -%>
+<% else -%>
 nodateext
 <% end -%>
 <%

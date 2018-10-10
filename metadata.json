@@ -1,6 +1,6 @@
 {
   "name": "simp-logrotate",
-  "version": "6.2.1",
+  "version": "6.3.0",
   "author": "SIMP Team",
   "summary": "configure SIMP logrotate",
   "license": "Apache-2.0",
@@ -14,7 +14,7 @@
   "dependencies": [
     {
       "name": "puppetlabs/stdlib",
-      "version_requirement": ">= 4.13.1 < 5.0.0"
+      "version_requirement": ">= 4.13.1 < 6.0.0"
     },
     {
       "name": "simp/simplib",

@@ -11,13 +11,13 @@ describe 'logrotate' do
 
         it do
           is_expected.to create_file('/etc/logrotate.simp.d').with( {
-           :ensure   => 'directory',
-           :owner    => 'root',
-           :group    => 'root',
-           :recurse  => true,
-           :purge    => true,
-           :force    => true,
-           :mode     => '0750'
+           :ensure  => 'directory',
+           :owner   => 'root',
+           :group   => 'root',
+           :recurse => true,
+           :purge   => true,
+           :force   => true,
+           :mode    => '0750'
           } )
         end
 
@@ -66,6 +66,18 @@ EOM
         let(:params) {{ :dateext => false }}
 
         it { is_expected.to create_file('/etc/logrotate.conf').with_content(/nodateext/) }
+      end
+
+      context 'dateyesterday set to true' do
+        let(:params) {{ :dateyesterday => true }}
+
+        it { is_expected.to create_file('/etc/logrotate.conf').with_content(/dateyesterday/) }
+      end
+
+      context 'dateyesterday set to false' do
+        let(:params) {{ :dateyesterday => false }}
+
+        it { is_expected.to create_file('/etc/logrotate.conf').without_content(/yesterdaynodateext/) }
       end
 
       context 'minsize set' do

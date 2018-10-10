@@ -1,5 +1,11 @@
-* Mon Jul 16 2018 Trevor Vaughan <tvaughan@onyxpoint.com> - 6.2.1-0
+* Mon Oct 01 2018 Nick Miller <nick.miller@onyxpoint.com> - 6.3.0-0
 - Added OEL and Puppet 5 support
+- Add some previously impossible to configure options
+  - the hourly rotate period
+  - dateyesterday
+  - shred and shredcycles
+  - su and su_user and su_group (inapplicable on EL6)
+- Added Logrotate::Periods type alias which allows hourly rotation
 
 * Mon Jul 02 2018 Liz Nemsick <lnemsick.simp@gmail.com> - 6.2.0-0
 - Move SIMP-specific logrotate rules to a SIMP-managed configuration
@@ -97,7 +103,7 @@
 * Tue Jan 11 2011 Trevor Vaughan <tvaughan@onyxpoint.com> - 2.0.0-0
 - Refactored for SIMP-2.0.0-alpha release
 
-* Tue Oct 26 2010 Trevor Vaughan - 1.0-1
+* Tue Oct 26 2010 Trevor Vaughan <tvaughan@onyxpoint.com> - 1.0-1
 - Converting all spec files to check for directories prior to copy.
 
 * Fri May 21 2010 Trevor Vaughan <tvaughan@onyxpoint.com> - 1.0-0
