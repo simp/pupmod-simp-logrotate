@@ -1,7 +1,7 @@
 * Mon Oct 01 2018 Nick Miller <nick.miller@onyxpoint.com> - 6.3.0-0
 - Added OEL and Puppet 5 support
 - Add some previously impossible to configure options
-  - su and su_user and su_group
+  - su and su_user and su_group (meaningless on EL6)
   - the hourly rotate period
   - shred and shredcycles
 - Added Logrotate::Periods type alias
