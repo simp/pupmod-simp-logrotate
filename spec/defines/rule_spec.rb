@@ -53,6 +53,7 @@ describe 'logrotate::rule' do
         it { is_expected.to compile.with_all_deps }
         it { is_expected.to create_file('/etc/logrotate.simp.d/test_logrotate_title').with_content(/lastaction\n\s+this is a lastaction/m) }
       end
+
       context 'with default params' do
         let(:params) {{
           :log_files => ['test1.log', 'test2.log'],
@@ -62,6 +63,7 @@ describe 'logrotate::rule' do
         it { is_expected.to create_file('/etc/logrotate.simp.d/test_logrotate_title').with_content(/^\s*dateext\n/m) }
         it { is_expected.to create_file('/etc/logrotate.simp.d/test_logrotate_title').with_content(/^\s*rotate\s+4\n/m) }
       end
+
       context 'with non default parameters' do
         let(:params) {{
           :log_files => ['test1.log', 'test2.log'],
@@ -87,7 +89,67 @@ describe 'logrotate::rule' do
           it { is_expected.to create_file('/etc/logrotate.simp.d/test_logrotate_title').with_content(/^\s*su httpd httpd\n/m) }
         end
       end
-      # just need to add tests for $su and $shred
+
+      context 'dateyesterday set to true' do
+        let(:params) {{
+          :log_files     => ['test.log'],
+          :dateyesterday => true
+        }}
+
+        it { is_expected.to create_file('/etc/logrotate.simp.d/test_logrotate_title').with_content(/dateyesterday/) }
+      end
+
+      context 'dateyesterday set to false' do
+        let(:params) {{
+          :log_files     => ['test.log'],
+          :dateyesterday => false
+        }}
+
+        it { is_expected.to create_file('/etc/logrotate.simp.d/test_logrotate_title').without_content(/dateyesterday/) }
+      end
+
+      context 'shred set to true' do
+        let(:params) {{
+          :log_files => ['test.log'],
+          :shred     => true
+        }}
+
+        it { is_expected.to create_file('/etc/logrotate.simp.d/test_logrotate_title').with_content(/shred\n/) }
+      end
+
+      context 'shred set to true and shredcycles set' do
+        let(:params) {{
+          :log_files   => ['test.log'],
+          :shred       => true,
+          :shredcycles => 5
+        }}
+
+        it { is_expected.to create_file('/etc/logrotate.simp.d/test_logrotate_title').with_content(/shred\n/) }
+        it { is_expected.to create_file('/etc/logrotate.simp.d/test_logrotate_title').with_content(/shredcycles 5/) }
+      end
+
+      context 'shred set to false' do
+        let(:params) {{
+          :log_files => ['test.log'],
+          :shred     => false
+        }}
+
+        it { is_expected.to create_file('/etc/logrotate.simp.d/test_logrotate_title').with_content(/noshred/) }
+      end
+
+      context 'shred set to false and shredcycles set' do
+        let(:params) {{
+          :log_files   => ['test.log'],
+          :shred       => false,
+          :shredcycles => 5
+        }}
+
+        it { is_expected.to create_file('/etc/logrotate.simp.d/test_logrotate_title').with_content(/noshred/) }
+
+        it { is_expected.to create_file('/etc/logrotate.simp.d/test_logrotate_title').without_content(/shredcycles 5/) }
+
+
+      end
     end
   end
 end

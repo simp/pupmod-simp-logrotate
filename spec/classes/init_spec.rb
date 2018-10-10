@@ -68,6 +68,18 @@ EOM
         it { is_expected.to create_file('/etc/logrotate.conf').with_content(/nodateext/) }
       end
 
+      context 'dateyesterday set to true' do
+        let(:params) {{ :dateyesterday => true }}
+
+        it { is_expected.to create_file('/etc/logrotate.conf').with_content(/dateyesterday/) }
+      end
+
+      context 'dateyesterday set to false' do
+        let(:params) {{ :dateyesterday => false }}
+
+        it { is_expected.to create_file('/etc/logrotate.conf').without_content(/yesterdaynodateext/) }
+      end
+
       context 'minsize set' do
         let(:params) {{ :minsize => '1M' }}
 
