@@ -4,7 +4,7 @@
   - su and su_user and su_group (inapplicable on EL6)
   - the hourly rotate period
   - shred and shredcycles
-- Added Logrotate::Periods type alias
+- Added Logrotate::Periods type alias which now supports hourly rotation
 
 * Mon Jul 02 2018 Liz Nemsick <lnemsick.simp@gmail.com> - 6.2.0-0
 - Move SIMP-specific logrotate rules to a SIMP-managed configuration
