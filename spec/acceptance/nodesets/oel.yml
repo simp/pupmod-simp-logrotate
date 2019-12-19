@@ -9,16 +9,18 @@ HOSTS:
   el7:
     roles:
       - default
-      - node
     platform:   el-7-x86_64
     box:        onyxpoint/oel-7-x86_64
     hypervisor: <%= hypervisor %>
 
   el6:
-    roles:
-      - node
     platform:   el-6-x86_64
     box:        onyxpoint/oel-6-x86_64
+    hypervisor: <%= hypervisor %>
+
+  el8:
+    platform:   el-8-x86_64
+    box:        generic/oracle8
     hypervisor: <%= hypervisor %>
 
 CONFIG:
