@@ -51,11 +51,10 @@ describe 'logrotate class' do
       it 'logrotate should use SIMP rule in lieu of overlapping system rule' do
         # make sure our assumptions about the default rule are correct
         result = on(host, 'grep -l /var/log/messages /etc/logrotate.d/*')
-        on(host, "egrep ^compress #{result.stdout.split("\n").first.strip}",
-          :acceptable_exit_codes => [1]
-        )
 
-        result = on(host, 'logrotate -f /etc/logrotate.conf')
+        expect(result.stdout.split("\n").first.strip).to_not match(%r{^compress})
+
+        result = on(host, 'logrotate -f /etc/logrotate.conf', :accept_all_exit_codes => true)
 
         expect(result.stderr).to match(%r(duplicate log entry for /var/log/messages))
         on(host, 'ls -l /var/log/messages*')
