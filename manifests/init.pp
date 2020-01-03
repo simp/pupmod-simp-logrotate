@@ -72,8 +72,8 @@ class logrotate (
   Boolean                            $dateext        = true,
   String[1]                          $dateformat     = '-%Y%m%d.%s',
   Optional[Boolean]                  $dateyesterday  = undef,
-  Optional[Pattern['^\d+(k|M|G)?$']] $maxsize        = undef,
-  Optional[Pattern['^\d+(k|M|G)?$']] $minsize        = undef,
+  Optional[Logrotate::Size]          $maxsize        = undef,
+  Optional[Logrotate::Size]          $minsize        = undef,
   String[1]                          $package_ensure = simplib::lookup('simp_options::package_ensure', { 'default_value' => 'installed' }),
   String[1]                          $logger_service = 'rsyslog'
 ) {

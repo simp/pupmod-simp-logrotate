@@ -1,3 +1,10 @@
+* Fri Jan 03 2020 Jeanne Greulich <jeanne,greulich@onyxpoint.com> - 6.5.0-0
+- Create size type that allows integers and pattern that allows k,M, or G
+  suffix.
+- Change type for minsize, maxsize and size values to use the above type.
+- Remove duplicate entry for size in conf.erb and add maxsize type.
+- Update spec_helper.rb
+
 * Thu Dec 19 2019 Trevor Vaughan <tvaughan@onyxpoint.com> - 6.5.0-0
 - Add EL8 support
 

@@ -54,6 +54,19 @@ describe 'logrotate::rule' do
         it { is_expected.to create_file('/etc/logrotate.simp.d/test_logrotate_title').with_content(/lastaction\n\s+this is a lastaction/m) }
       end
 
+      context 'with a lastaction specified' do
+        let(:params) {{
+          :log_files  => ['test1.log', 'test2.log'],
+          :size  => 1000000,
+          :minsize =>  '20k',
+          :maxsize =>  '1G'
+        }}
+        it { is_expected.to compile.with_all_deps }
+        it { is_expected.to create_file('/etc/logrotate.simp.d/test_logrotate_title').with_content(/size\s1000000/) }
+        it { is_expected.to create_file('/etc/logrotate.simp.d/test_logrotate_title').with_content(/minsize\s20k/) }
+        it { is_expected.to create_file('/etc/logrotate.simp.d/test_logrotate_title').with_content(/maxsize\s1G/) }
+      end
+
       context 'with default params' do
         let(:params) {{
           :log_files => ['test1.log', 'test2.log'],
