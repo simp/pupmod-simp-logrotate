@@ -78,7 +78,7 @@
 # @param su_group
 # @param tabooext
 #
-# @author Trevor Vaughan <tvaughan@onyxpoint.com>
+# @author https://github.com/simp/pupmod-simp-logrotate/graphs/contributors
 #
 define logrotate::rule (
   Array[String[1]]                $log_files,

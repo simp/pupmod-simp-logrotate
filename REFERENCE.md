@@ -14,7 +14,7 @@
 **Data types**
 
 * [`Logrotate::Periods`](#logrotateperiods): Allowed time intervals for logrotate
-* [`Logrotate::Size`](#logrotatesize): Valid size of a log in either bytes (no suffix) or k, M, G for kilobytes, Megabytes or Gigabtes
+* [`Logrotate::Size`](#logrotatesize): Size of a log in bytes, kilobytes, megabytes or gigabytes
 
 ## Classes
 
@@ -517,8 +517,7 @@ Alias of `Enum['hourly', 'daily', 'weekly', 'monthly', 'yearly']`
 
 ### Logrotate::Size
 
-Valid size of a log in either bytes (no suffix) or
-k, M, G for kilobytes, Megabytes or Gigabtes
+Size of a log in bytes, kilobytes, megabytes or gigabytes
 
-Alias of `Variant[Integer[1], Pattern[/^[0-9]+[kGM]?$/]]`
+Alias of `Variant[Integer[1], Pattern[/^[0-9]+[kMG]?$/]]`
 
