@@ -43,6 +43,7 @@
 #   If false, mailfirst will be set. Ignored if $mail is `false`
 #
 # @param maxage
+# @param maxsize
 # @param minsize
 # @param missingok
 # @param olddir
@@ -77,7 +78,7 @@
 # @param su_group
 # @param tabooext
 #
-# @author Trevor Vaughan <tvaughan@onyxpoint.com>
+# @author https://github.com/simp/pupmod-simp-logrotate/graphs/contributors
 #
 define logrotate::rule (
   Array[String[1]]                $log_files,
@@ -100,7 +101,8 @@ define logrotate::rule (
   Optional[Simplib::EmailAddress] $mail                      = undef,
   Boolean                         $maillast                  = true,
   Optional[Integer[0]]            $maxage                    = undef,
-  Optional[Integer[0]]            $minsize                   = undef,
+  Optional[Logrotate::Size]       $maxsize                   = undef,
+  Optional[Logrotate::Size]       $minsize                   = undef,
   Boolean                         $missingok                 = false,
   Optional[Stdlib::Absolutepath]  $olddir                    = undef,
   Optional[String[1]]             $postrotate                = undef,
@@ -110,7 +112,7 @@ define logrotate::rule (
   Boolean                         $lastaction_restart_logger = false,
   Optional[String[1]]             $logger_service            = simplib::lookup('logrotate::logger_service', {'default_value' => 'rsyslog'}),
   Optional[Integer[0]]            $rotate                    = undef,
-  Optional[Integer[0]]            $size                      = undef,
+  Optional[Logrotate::Size]       $size                      = undef,
   Boolean                         $sharedscripts             = true,
   Optional[Boolean]               $shred                     = undef,
   Optional[Integer[0]]            $shredcycles               = undef,

@@ -11,6 +11,11 @@
 
 * [`logrotate::rule`](#logrotaterule): Add a LogRotate Configuration  If options have a 'no' variant, then the no variant will be set if you set the primary value to false  The ``l
 
+**Data types**
+
+* [`Logrotate::Periods`](#logrotateperiods): Allowed time intervals for logrotate
+* [`Logrotate::Size`](#logrotatesize): Size of a log in bytes, kilobytes, megabytes or gigabytes
+
 ## Classes
 
 ### logrotate
@@ -113,7 +118,7 @@ Default value: `undef`
 
 ##### `maxsize`
 
-Data type: `Optional[Pattern['^\d+(k|M|G)?$']]`
+Data type: `Optional[Logrotate::Size]`
 
 The default maximum size of a logfile
 
@@ -121,7 +126,7 @@ Default value: `undef`
 
 ##### `minsize`
 
-Data type: `Optional[Pattern['^\d+(k|M|G)?$']]`
+Data type: `Optional[Logrotate::Size]`
 
 The default minimum size of a logfile
 
@@ -335,9 +340,17 @@ Data type: `Optional[Integer[0]]`
 
 Default value: `undef`
 
+##### `maxsize`
+
+Data type: `Optional[Logrotate::Size]`
+
+
+
+Default value: `undef`
+
 ##### `minsize`
 
-Data type: `Optional[Integer[0]]`
+Data type: `Optional[Logrotate::Size]`
 
 
 
@@ -423,7 +436,7 @@ Default value: `undef`
 
 ##### `size`
 
-Data type: `Optional[Integer[0]]`
+Data type: `Optional[Logrotate::Size]`
 
 
 
@@ -493,4 +506,18 @@ Data type: `Optional[Array[String[1]]]`
 
 
 Default value: `undef`
+
+## Data types
+
+### Logrotate::Periods
+
+Allowed time intervals for logrotate
+
+Alias of `Enum['hourly', 'daily', 'weekly', 'monthly', 'yearly']`
+
+### Logrotate::Size
+
+Size of a log in bytes, kilobytes, megabytes or gigabytes
+
+Alias of `Variant[Integer[1], Pattern[/^[0-9]+[kMG]?$/]]`
 

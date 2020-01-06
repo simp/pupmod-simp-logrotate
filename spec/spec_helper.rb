@@ -144,6 +144,8 @@ RSpec.configure do |c|
     Puppet[:environmentpath] = @spec_global_env_temp
     Puppet[:user] = Etc.getpwuid(Process.uid).name
     Puppet[:group] = Etc.getgrgid(Process.gid).name
+    # ensure the system can run on FIPS systems
+    Puppet[:digest_algorithm] = 'sha256'
 
     # sanitize hieradata
     if defined?(hieradata)

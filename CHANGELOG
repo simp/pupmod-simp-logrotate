@@ -1,3 +1,10 @@
+* Fri Jan 03 2020 Jeanne Greulich <jeanne,greulich@onyxpoint.com> - 6.5.0-0
+- Allow all log size configuration parameters to be specified in bytes,
+  kilobytes, megabytes, or gigabytes.
+- Fixed a bug in which the size parameter in the global logrotate configuration
+  file was specified more than once.
+- Added ability to specify maxsize configuration for specific log rotate rules.
+
 * Thu Dec 19 2019 Trevor Vaughan <tvaughan@onyxpoint.com> - 6.5.0-0
 - Add EL8 support
 

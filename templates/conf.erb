@@ -68,6 +68,9 @@
 <%  if @maxage -%>
     maxage <%= @maxage %>
 <%  end -%>
+<%  if @maxsize -%>
+    maxsize <%= @maxsize %>
+<%  end -%>
 <%  if @minsize -%>
     minsize <%= @minsize %>
 <%  end -%>
@@ -102,9 +105,6 @@
     endscript
 <%  end -%>
     rotate <%= @_rotate.to_s %>
-<%  if @size -%>
-    size <%= @size %>
-<%  end -%>
 <%  if @sharedscripts -%>
     sharedscripts
 <%  else -%>
