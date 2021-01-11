@@ -96,11 +96,7 @@ describe 'logrotate::rule' do
           :su_group  => 'httpd',
         }}
         it { is_expected.to compile.with_all_deps }
-        if facts[:os][:release][:major].to_i == 6
-          it { is_expected.to create_file('/etc/logrotate.simp.d/test_logrotate_title').without_content(/^\s*su httpd httpd\n/m) }
-        else
-          it { is_expected.to create_file('/etc/logrotate.simp.d/test_logrotate_title').with_content(/^\s*su httpd httpd\n/m) }
-        end
+        it { is_expected.to create_file('/etc/logrotate.simp.d/test_logrotate_title').with_content(/^\s*su httpd httpd\n/m) }
       end
 
       context 'dateyesterday set to true' do
