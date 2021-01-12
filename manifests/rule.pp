@@ -141,15 +141,10 @@ define logrotate::rule (
   }
 
   if $su {
-    if $facts['os']['release']['major'] <= '6' {
-      $_su_line = undef
+    if ($su_user =~ Undef or $su_group =~ Undef) {
+      fail('logrotate: when $su is specified, $su_user and $su_group must not be empty')
     }
-    else {
-      if ($su_user =~ Undef or $su_group =~ Undef) {
-        fail('logrotate: if $su is specified, $su_user and $su_group must not be empty')
-      }
-      $_su_line = "su ${su_user} ${su_group}"
-    }
+    $_su_line = "su ${su_user} ${su_group}"
   }
   else {
     $_su_line = undef
