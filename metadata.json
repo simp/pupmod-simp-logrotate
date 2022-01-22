@@ -1,6 +1,6 @@
 {
   "name": "simp-logrotate",
-  "version": "6.6.0",
+  "version": "6.6.1",
   "author": "SIMP Team",
   "summary": "configure SIMP logrotate",
   "license": "Apache-2.0",
@@ -22,6 +22,12 @@
     }
   ],
   "operatingsystem_support": [
+    {
+      "operatingsystem": "Amazon",
+      "operatingsystemrelease": [
+        "2"
+      ]
+    },
     {
       "operatingsystem": "CentOS",
       "operatingsystemrelease": [
