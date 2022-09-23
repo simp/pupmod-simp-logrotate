@@ -36,6 +36,13 @@
       ]
     },
     {
+      "operatingsystem": "OracleLinux",
+      "operatingsystemrelease": [
+        "7",
+        "8"
+      ]
+    },
+    {
       "operatingsystem": "RedHat",
       "operatingsystemrelease": [
         "7",
@@ -43,9 +50,8 @@
       ]
     },
     {
-      "operatingsystem": "OracleLinux",
+      "operatingsystem": "Rocky",
       "operatingsystemrelease": [
-        "7",
         "8"
       ]
     }
