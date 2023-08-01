@@ -10,12 +10,12 @@
 
 ### Defined types
 
-* [`logrotate::rule`](#logrotaterule): Add a LogRotate Configuration  If options have a 'no' variant, then the no variant will be set if you set the primary value to false  The ``l
+* [`logrotate::rule`](#logrotate--rule): Add a LogRotate Configuration  If options have a 'no' variant, then the no variant will be set if you set the primary value to false  The ``l
 
 ### Data types
 
-* [`Logrotate::Periods`](#logrotateperiods): Allowed time intervals for logrotate
-* [`Logrotate::Size`](#logrotatesize): Size of a log in bytes, kilobytes, megabytes or gigabytes
+* [`Logrotate::Periods`](#Logrotate--Periods): Allowed time intervals for logrotate
+* [`Logrotate::Size`](#Logrotate--Size): Size of a log in bytes, kilobytes, megabytes or gigabytes
 
 ## Classes
 
@@ -29,22 +29,22 @@ Use ``logrotate::rule`` for specific configuration options.
 
 The following parameters are available in the `logrotate` class:
 
-* [`rotate_period`](#rotate_period)
-* [`rotate`](#rotate)
-* [`create`](#create)
-* [`compress`](#compress)
-* [`configdir`](#configdir)
-* [`include_dirs`](#include_dirs)
-* [`manage_wtmp`](#manage_wtmp)
-* [`dateext`](#dateext)
-* [`dateformat`](#dateformat)
-* [`dateyesterday`](#dateyesterday)
-* [`maxsize`](#maxsize)
-* [`minsize`](#minsize)
-* [`package_ensure`](#package_ensure)
-* [`logger_service`](#logger_service)
+* [`rotate_period`](#-logrotate--rotate_period)
+* [`rotate`](#-logrotate--rotate)
+* [`create`](#-logrotate--create)
+* [`compress`](#-logrotate--compress)
+* [`configdir`](#-logrotate--configdir)
+* [`include_dirs`](#-logrotate--include_dirs)
+* [`manage_wtmp`](#-logrotate--manage_wtmp)
+* [`dateext`](#-logrotate--dateext)
+* [`dateformat`](#-logrotate--dateformat)
+* [`dateyesterday`](#-logrotate--dateyesterday)
+* [`maxsize`](#-logrotate--maxsize)
+* [`minsize`](#-logrotate--minsize)
+* [`package_ensure`](#-logrotate--package_ensure)
+* [`logger_service`](#-logrotate--logger_service)
 
-##### <a name="rotate_period"></a>`rotate_period`
+##### <a name="-logrotate--rotate_period"></a>`rotate_period`
 
 Data type: `Logrotate::Periods`
 
@@ -52,7 +52,7 @@ How often to rotate the logs
 
 Default value: `'weekly'`
 
-##### <a name="rotate"></a>`rotate`
+##### <a name="-logrotate--rotate"></a>`rotate`
 
 Data type: `Integer[0]`
 
@@ -61,23 +61,23 @@ system
 
 Default value: `4`
 
-##### <a name="create"></a>`create`
+##### <a name="-logrotate--create"></a>`create`
 
 Data type: `Boolean`
 
 Create new log files if they do not exist
 
-Default value: ``true``
+Default value: `true`
 
-##### <a name="compress"></a>`compress`
+##### <a name="-logrotate--compress"></a>`compress`
 
 Data type: `Boolean`
 
 Compress the logs upon rotation
 
-Default value: ``true``
+Default value: `true`
 
-##### <a name="configdir"></a>`configdir`
+##### <a name="-logrotate--configdir"></a>`configdir`
 
 Data type: `Stdlib::Absolutepath`
 
@@ -85,7 +85,7 @@ The primary directory for SIMP-managed configuration files.
 
 Default value: `'/etc/logrotate.simp.d'`
 
-##### <a name="include_dirs"></a>`include_dirs`
+##### <a name="-logrotate--include_dirs"></a>`include_dirs`
 
 Data type: `Array[Stdlib::Absolutepath]`
 
@@ -97,24 +97,24 @@ Directories to include in your logrotate configuration
 
 Default value: `[ '/etc/logrotate.d' ]`
 
-##### <a name="manage_wtmp"></a>`manage_wtmp`
+##### <a name="-logrotate--manage_wtmp"></a>`manage_wtmp`
 
 Data type: `Boolean`
 
 Set to ``false`` if you do not want ``/var/log/wtmp`` to be managed by
 logrotate
 
-Default value: ``true``
+Default value: `true`
 
-##### <a name="dateext"></a>`dateext`
+##### <a name="-logrotate--dateext"></a>`dateext`
 
 Data type: `Boolean`
 
 Use ``dateext`` as the suffix for rotated files
 
-Default value: ``true``
+Default value: `true`
 
-##### <a name="dateformat"></a>`dateformat`
+##### <a name="-logrotate--dateformat"></a>`dateformat`
 
 Data type: `String[1]`
 
@@ -124,23 +124,23 @@ The format of the date to be appended
 
 Default value: `'-%Y%m%d.%s'`
 
-##### <a name="dateyesterday"></a>`dateyesterday`
+##### <a name="-logrotate--dateyesterday"></a>`dateyesterday`
 
 Data type: `Optional[Boolean]`
 
 Say 'yesterday' instead of the date
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="maxsize"></a>`maxsize`
+##### <a name="-logrotate--maxsize"></a>`maxsize`
 
 Data type: `Optional[Logrotate::Size]`
 
 The default maximum size of a logfile
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="minsize"></a>`minsize`
+##### <a name="-logrotate--minsize"></a>`minsize`
 
 Data type: `Optional[Logrotate::Size]`
 
@@ -148,9 +148,9 @@ The default minimum size of a logfile
 
 * Overrides the ``maxsize`` setting
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="package_ensure"></a>`package_ensure`
+##### <a name="-logrotate--package_ensure"></a>`package_ensure`
 
 Data type: `String[1]`
 
@@ -158,7 +158,7 @@ The ensure status of packages to be installed
 
 Default value: `simplib::lookup('simp_options::package_ensure', { 'default_value' => 'installed' })`
 
-##### <a name="logger_service"></a>`logger_service`
+##### <a name="-logrotate--logger_service"></a>`logger_service`
 
 Data type: `String[1]`
 
@@ -172,7 +172,7 @@ Default value: `'rsyslog'`
 
 ## Defined types
 
-### <a name="logrotaterule"></a>`logrotate::rule`
+### <a name="logrotate--rule"></a>`logrotate::rule`
 
 Add a LogRotate Configuration
 
@@ -189,117 +189,117 @@ parameter.
 
 The following parameters are available in the `logrotate::rule` defined type:
 
-* [`name`](#name)
-* [`log_files`](#log_files)
-* [`compress`](#compress)
-* [`compresscmd`](#compresscmd)
-* [`uncompresscmd`](#uncompresscmd)
-* [`compressext`](#compressext)
-* [`compressoptions`](#compressoptions)
-* [`copy`](#copy)
-* [`copytruncate`](#copytruncate)
-* [`create`](#create)
-* [`rotate_period`](#rotate_period)
-* [`dateext`](#dateext)
-* [`dateformat`](#dateformat)
-* [`dateyesterday`](#dateyesterday)
-* [`delaycompress`](#delaycompress)
-* [`extension`](#extension)
-* [`ifempty`](#ifempty)
-* [`ext_include`](#ext_include)
-* [`mail`](#mail)
-* [`maillast`](#maillast)
-* [`maxage`](#maxage)
-* [`maxsize`](#maxsize)
-* [`minsize`](#minsize)
-* [`missingok`](#missingok)
-* [`olddir`](#olddir)
-* [`postrotate`](#postrotate)
-* [`prerotate`](#prerotate)
-* [`firstaction`](#firstaction)
-* [`lastaction`](#lastaction)
-* [`lastaction_restart_logger`](#lastaction_restart_logger)
-* [`logger_service`](#logger_service)
-* [`rotate`](#rotate)
-* [`size`](#size)
-* [`sharedscripts`](#sharedscripts)
-* [`shred`](#shred)
-* [`shredcycles`](#shredcycles)
-* [`start`](#start)
-* [`su`](#su)
-* [`su_user`](#su_user)
-* [`su_group`](#su_group)
-* [`tabooext`](#tabooext)
+* [`name`](#-logrotate--rule--name)
+* [`log_files`](#-logrotate--rule--log_files)
+* [`compress`](#-logrotate--rule--compress)
+* [`compresscmd`](#-logrotate--rule--compresscmd)
+* [`uncompresscmd`](#-logrotate--rule--uncompresscmd)
+* [`compressext`](#-logrotate--rule--compressext)
+* [`compressoptions`](#-logrotate--rule--compressoptions)
+* [`copy`](#-logrotate--rule--copy)
+* [`copytruncate`](#-logrotate--rule--copytruncate)
+* [`create`](#-logrotate--rule--create)
+* [`rotate_period`](#-logrotate--rule--rotate_period)
+* [`dateext`](#-logrotate--rule--dateext)
+* [`dateformat`](#-logrotate--rule--dateformat)
+* [`dateyesterday`](#-logrotate--rule--dateyesterday)
+* [`delaycompress`](#-logrotate--rule--delaycompress)
+* [`extension`](#-logrotate--rule--extension)
+* [`ifempty`](#-logrotate--rule--ifempty)
+* [`ext_include`](#-logrotate--rule--ext_include)
+* [`mail`](#-logrotate--rule--mail)
+* [`maillast`](#-logrotate--rule--maillast)
+* [`maxage`](#-logrotate--rule--maxage)
+* [`maxsize`](#-logrotate--rule--maxsize)
+* [`minsize`](#-logrotate--rule--minsize)
+* [`missingok`](#-logrotate--rule--missingok)
+* [`olddir`](#-logrotate--rule--olddir)
+* [`postrotate`](#-logrotate--rule--postrotate)
+* [`prerotate`](#-logrotate--rule--prerotate)
+* [`firstaction`](#-logrotate--rule--firstaction)
+* [`lastaction`](#-logrotate--rule--lastaction)
+* [`lastaction_restart_logger`](#-logrotate--rule--lastaction_restart_logger)
+* [`logger_service`](#-logrotate--rule--logger_service)
+* [`rotate`](#-logrotate--rule--rotate)
+* [`size`](#-logrotate--rule--size)
+* [`sharedscripts`](#-logrotate--rule--sharedscripts)
+* [`shred`](#-logrotate--rule--shred)
+* [`shredcycles`](#-logrotate--rule--shredcycles)
+* [`start`](#-logrotate--rule--start)
+* [`su`](#-logrotate--rule--su)
+* [`su_user`](#-logrotate--rule--su_user)
+* [`su_group`](#-logrotate--rule--su_group)
+* [`tabooext`](#-logrotate--rule--tabooext)
 
-##### <a name="name"></a>`name`
+##### <a name="-logrotate--rule--name"></a>`name`
 
 Data type: `String`
 
 Directly translates to the name of the file
 
-##### <a name="log_files"></a>`log_files`
+##### <a name="-logrotate--rule--log_files"></a>`log_files`
 
 Data type: `Array[String[1]]`
 
 The log file strings for all logs to be affected by this stanza
 
-##### <a name="compress"></a>`compress`
+##### <a name="-logrotate--rule--compress"></a>`compress`
 
 Data type: `Optional[Boolean]`
 
 If undefined it defaults to the setting in logrotate.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="compresscmd"></a>`compresscmd`
-
-Data type: `Optional[String[1]]`
-
-
-
-Default value: ``undef``
-
-##### <a name="uncompresscmd"></a>`uncompresscmd`
+##### <a name="-logrotate--rule--compresscmd"></a>`compresscmd`
 
 Data type: `Optional[String[1]]`
 
 
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="compressext"></a>`compressext`
-
-Data type: `Optional[String[1]]`
-
-
-
-Default value: ``undef``
-
-##### <a name="compressoptions"></a>`compressoptions`
+##### <a name="-logrotate--rule--uncompresscmd"></a>`uncompresscmd`
 
 Data type: `Optional[String[1]]`
 
 
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="copy"></a>`copy`
+##### <a name="-logrotate--rule--compressext"></a>`compressext`
+
+Data type: `Optional[String[1]]`
+
+
+
+Default value: `undef`
+
+##### <a name="-logrotate--rule--compressoptions"></a>`compressoptions`
+
+Data type: `Optional[String[1]]`
+
+
+
+Default value: `undef`
+
+##### <a name="-logrotate--rule--copy"></a>`copy`
 
 Data type: `Boolean`
 
 
 
-Default value: ``false``
+Default value: `false`
 
-##### <a name="copytruncate"></a>`copytruncate`
+##### <a name="-logrotate--rule--copytruncate"></a>`copytruncate`
 
 Data type: `Boolean`
 
 
 
-Default value: ``false``
+Default value: `false`
 
-##### <a name="create"></a>`create`
+##### <a name="-logrotate--rule--create"></a>`create`
 
 Data type: `Pattern['\d{4} .+ .+']`
 
@@ -307,15 +307,15 @@ Data type: `Pattern['\d{4} .+ .+']`
 
 Default value: `'0640 root root'`
 
-##### <a name="rotate_period"></a>`rotate_period`
+##### <a name="-logrotate--rule--rotate_period"></a>`rotate_period`
 
 Data type: `Optional[Logrotate::Periods]`
 
 
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="dateext"></a>`dateext`
+##### <a name="-logrotate--rule--dateext"></a>`dateext`
 
 Data type: `Optional[Boolean]`
 
@@ -323,9 +323,9 @@ If set to true log files will be rotated using a date extension.
 If false nodateext is set and rotated logs use a number extension.
 If undefined it defaults to the setting in logrotate
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="dateformat"></a>`dateformat`
+##### <a name="-logrotate--rule--dateformat"></a>`dateformat`
 
 Data type: `String[1]`
 
@@ -333,136 +333,136 @@ Data type: `String[1]`
 
 Default value: `'-%Y%m%d.%s'`
 
-##### <a name="dateyesterday"></a>`dateyesterday`
+##### <a name="-logrotate--rule--dateyesterday"></a>`dateyesterday`
 
 Data type: `Optional[Boolean]`
 
 
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="delaycompress"></a>`delaycompress`
+##### <a name="-logrotate--rule--delaycompress"></a>`delaycompress`
 
 Data type: `Optional[Boolean]`
 
 
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="extension"></a>`extension`
+##### <a name="-logrotate--rule--extension"></a>`extension`
 
 Data type: `Optional[String[1]]`
 
 
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="ifempty"></a>`ifempty`
+##### <a name="-logrotate--rule--ifempty"></a>`ifempty`
 
 Data type: `Boolean`
 
 
 
-Default value: ``false``
+Default value: `false`
 
-##### <a name="ext_include"></a>`ext_include`
+##### <a name="-logrotate--rule--ext_include"></a>`ext_include`
 
 Data type: `Optional[Array[String[1]]]`
 
 Corresponds to the ``include`` logrotate configuration since it is a
 reserved word in Puppet
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="mail"></a>`mail`
+##### <a name="-logrotate--rule--mail"></a>`mail`
 
 Data type: `Optional[Simplib::EmailAddress]`
 
 
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="maillast"></a>`maillast`
+##### <a name="-logrotate--rule--maillast"></a>`maillast`
 
 Data type: `Boolean`
 
 If false, mailfirst will be set. Ignored if $mail is `false`
 
-Default value: ``true``
+Default value: `true`
 
-##### <a name="maxage"></a>`maxage`
+##### <a name="-logrotate--rule--maxage"></a>`maxage`
 
 Data type: `Optional[Integer[0]]`
 
 
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="maxsize"></a>`maxsize`
-
-Data type: `Optional[Logrotate::Size]`
-
-
-
-Default value: ``undef``
-
-##### <a name="minsize"></a>`minsize`
+##### <a name="-logrotate--rule--maxsize"></a>`maxsize`
 
 Data type: `Optional[Logrotate::Size]`
 
 
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="missingok"></a>`missingok`
+##### <a name="-logrotate--rule--minsize"></a>`minsize`
+
+Data type: `Optional[Logrotate::Size]`
+
+
+
+Default value: `undef`
+
+##### <a name="-logrotate--rule--missingok"></a>`missingok`
 
 Data type: `Boolean`
 
 
 
-Default value: ``false``
+Default value: `false`
 
-##### <a name="olddir"></a>`olddir`
+##### <a name="-logrotate--rule--olddir"></a>`olddir`
 
 Data type: `Optional[Stdlib::Absolutepath]`
 
 
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="postrotate"></a>`postrotate`
-
-Data type: `Optional[String[1]]`
-
-
-
-Default value: ``undef``
-
-##### <a name="prerotate"></a>`prerotate`
+##### <a name="-logrotate--rule--postrotate"></a>`postrotate`
 
 Data type: `Optional[String[1]]`
 
 
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="firstaction"></a>`firstaction`
-
-Data type: `Optional[String[1]]`
-
-
-
-Default value: ``undef``
-
-##### <a name="lastaction"></a>`lastaction`
+##### <a name="-logrotate--rule--prerotate"></a>`prerotate`
 
 Data type: `Optional[String[1]]`
 
 
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="lastaction_restart_logger"></a>`lastaction_restart_logger`
+##### <a name="-logrotate--rule--firstaction"></a>`firstaction`
+
+Data type: `Optional[String[1]]`
+
+
+
+Default value: `undef`
+
+##### <a name="-logrotate--rule--lastaction"></a>`lastaction`
+
+Data type: `Optional[String[1]]`
+
+
+
+Default value: `undef`
+
+##### <a name="-logrotate--rule--lastaction_restart_logger"></a>`lastaction_restart_logger`
 
 Data type: `Boolean`
 
@@ -470,9 +470,9 @@ Restart ``$logger_service`` as a logrotate ``lastaction``
 
 * Has no effect if ``$lastaction`` is set
 
-Default value: ``false``
+Default value: `false`
 
-##### <a name="logger_service"></a>`logger_service`
+##### <a name="-logrotate--rule--logger_service"></a>`logger_service`
 
 Data type: `Optional[String[1]]`
 
@@ -483,48 +483,48 @@ The name of the service which will be restarted as a logrotate ``lastaction``
 
 Default value: `simplib::lookup('logrotate::logger_service', {'default_value' => 'rsyslog'})`
 
-##### <a name="rotate"></a>`rotate`
+##### <a name="-logrotate--rule--rotate"></a>`rotate`
 
 Data type: `Optional[Integer[0]]`
 
 The number of old log files to keep.
 If undefined it defaults to the setting in logrotate
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="size"></a>`size`
+##### <a name="-logrotate--rule--size"></a>`size`
 
 Data type: `Optional[Logrotate::Size]`
 
 
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="sharedscripts"></a>`sharedscripts`
+##### <a name="-logrotate--rule--sharedscripts"></a>`sharedscripts`
 
 Data type: `Boolean`
 
 
 
-Default value: ``true``
+Default value: `true`
 
-##### <a name="shred"></a>`shred`
+##### <a name="-logrotate--rule--shred"></a>`shred`
 
 Data type: `Optional[Boolean]`
 
 
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="shredcycles"></a>`shredcycles`
+##### <a name="-logrotate--rule--shredcycles"></a>`shredcycles`
 
 Data type: `Optional[Integer[0]]`
 
 
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="start"></a>`start`
+##### <a name="-logrotate--rule--start"></a>`start`
 
 Data type: `Integer[0]`
 
@@ -532,58 +532,50 @@ Data type: `Integer[0]`
 
 Default value: `1`
 
-##### <a name="su"></a>`su`
+##### <a name="-logrotate--rule--su"></a>`su`
 
 Data type: `Boolean`
 
 Rotate logs as a different user and group. $su_user and $su_group are
 required if this is set to true. Ignored on EL6.
 
-Default value: ``false``
+Default value: `false`
 
-##### <a name="su_user"></a>`su_user`
-
-Data type: `Optional[String[1]]`
-
-
-
-Default value: ``undef``
-
-##### <a name="su_group"></a>`su_group`
+##### <a name="-logrotate--rule--su_user"></a>`su_user`
 
 Data type: `Optional[String[1]]`
 
 
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="tabooext"></a>`tabooext`
+##### <a name="-logrotate--rule--su_group"></a>`su_group`
+
+Data type: `Optional[String[1]]`
+
+
+
+Default value: `undef`
+
+##### <a name="-logrotate--rule--tabooext"></a>`tabooext`
 
 Data type: `Optional[Array[String[1]]]`
 
 
 
-Default value: ``undef``
+Default value: `undef`
 
 ## Data types
 
-### <a name="logrotateperiods"></a>`Logrotate::Periods`
+### <a name="Logrotate--Periods"></a>`Logrotate::Periods`
 
 Allowed time intervals for logrotate
 
-Alias of
+Alias of `Enum['hourly', 'daily', 'weekly', 'monthly', 'yearly']`
 
-```puppet
-Enum['hourly', 'daily', 'weekly', 'monthly', 'yearly']
-```
-
-### <a name="logrotatesize"></a>`Logrotate::Size`
+### <a name="Logrotate--Size"></a>`Logrotate::Size`
 
 Size of a log in bytes, kilobytes, megabytes or gigabytes
 
-Alias of
-
-```puppet
-Variant[Integer[1], Pattern[/^[0-9]+[kMG]?$/]]
-```
+Alias of `Variant[Integer[1], Pattern[/^[0-9]+[kMG]?$/]]`
 
