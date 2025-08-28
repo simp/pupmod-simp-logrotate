@@ -10,15 +10,15 @@ describe 'logrotate' do
         it { is_expected.to create_class('logrotate') }
 
         it do
-          is_expected.to create_file('/etc/logrotate.simp.d').with( {
-           :ensure  => 'directory',
-           :owner   => 'root',
-           :group   => 'root',
-           :recurse => true,
-           :purge   => true,
-           :force   => true,
-           :mode    => '0750'
-          } )
+          is_expected.to create_file('/etc/logrotate.simp.d').with({
+                                                                     ensure: 'directory',
+           owner: 'root',
+           group: 'root',
+           recurse: true,
+           purge: true,
+           force: true,
+           mode: '0750'
+                                                                   })
         end
 
         it do
@@ -46,66 +46,67 @@ EOM
           is_expected.to create_file('/etc/logrotate.conf').with_content(expected)
         end
 
-
         it { is_expected.to contain_package('logrotate').with_ensure('installed') }
       end
 
       context 'create set to false' do
-        let(:params) {{ :create => false }}
+        let(:params) { { create: false } }
 
-        it { is_expected.to_not create_file('/etc/logrotate.conf').with_content(/^create/) }
+        it { is_expected.not_to create_file('/etc/logrotate.conf').with_content(%r{^create}) }
       end
 
       context 'compress set to false' do
-        let(:params) {{ :compress => false }}
+        let(:params) { { compress: false } }
 
-        it { is_expected.to_not create_file('/etc/logrotate.conf').with_content(/compress/) }
+        it { is_expected.not_to create_file('/etc/logrotate.conf').with_content(%r{compress}) }
       end
 
       context 'dateext set to false' do
-        let(:params) {{ :dateext => false }}
+        let(:params) { { dateext: false } }
 
-        it { is_expected.to create_file('/etc/logrotate.conf').with_content(/nodateext/) }
+        it { is_expected.to create_file('/etc/logrotate.conf').with_content(%r{nodateext}) }
       end
 
       context 'dateyesterday set to true' do
-        let(:params) {{ :dateyesterday => true }}
+        let(:params) { { dateyesterday: true } }
 
-        it { is_expected.to create_file('/etc/logrotate.conf').with_content(/dateyesterday/) }
+        it { is_expected.to create_file('/etc/logrotate.conf').with_content(%r{dateyesterday}) }
       end
 
       context 'dateyesterday set to false' do
-        let(:params) {{ :dateyesterday => false }}
+        let(:params) { { dateyesterday: false } }
 
-        it { is_expected.to create_file('/etc/logrotate.conf').without_content(/yesterdaynodateext/) }
+        it { is_expected.to create_file('/etc/logrotate.conf').without_content(%r{yesterdaynodateext}) }
       end
 
       context 'minsize set' do
-        let(:params) {{ :minsize => '1M' }}
+        let(:params) { { minsize: '1M' } }
 
-        it { is_expected.to create_file('/etc/logrotate.conf').with_content(/minsize 1M/) }
+        it { is_expected.to create_file('/etc/logrotate.conf').with_content(%r{minsize 1M}) }
       end
 
       context 'maxsize set' do
-        let(:params) {{ :maxsize => '1G' }}
+        let(:params) { { maxsize: '1G' } }
 
-        it { is_expected.to create_file('/etc/logrotate.conf').with_content(/maxsize 1G/) }
+        it { is_expected.to create_file('/etc/logrotate.conf').with_content(%r{maxsize 1G}) }
       end
 
       context 'both minsize and maxsize set' do
-        let(:params) {{
-          :minsize => '1M',
-          :maxsize => '1G'
-        }}
+        let(:params) do
+          {
+            minsize: '1M',
+         maxsize: '1G'
+          }
+        end
 
-        it { is_expected.to create_file('/etc/logrotate.conf').with_content(/minsize 1M/) }
-        it { is_expected.to_not create_file('/etc/logrotate.conf').with_content(/maxsize 1G/) }
+        it { is_expected.to create_file('/etc/logrotate.conf').with_content(%r{minsize 1M}) }
+        it { is_expected.not_to create_file('/etc/logrotate.conf').with_content(%r{maxsize 1G}) }
       end
 
       context 'manage_wtmp set to false' do
-        let(:params) {{ :manage_wtmp => false }}
+        let(:params) { { manage_wtmp: false } }
 
-        it { is_expected.to_not create_file('/etc/logrotate.conf').with_content(%r(/var/log/wtmp {)) }
+        it { is_expected.not_to create_file('/etc/logrotate.conf').with_content(%r(/var/log/wtmp {)) }
       end
     end
   end

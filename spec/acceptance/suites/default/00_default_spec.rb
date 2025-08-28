@@ -3,16 +3,15 @@ require 'spec_helper_acceptance'
 test_name 'logrotate'
 
 describe 'logrotate class' do
-
   hosts.each do |host|
     context "on #{host}" do
-      let(:manifest) {
+      let(:manifest) do
         <<-EOS
           include logrotate
         EOS
-      }
+      end
 
-      let(:manifest_with_rule) {
+      let(:manifest_with_rule) do
         <<-EOS
           # explicitly turn off compression globally, so we can see
           # that our specific syslog rule that has compression enabled
@@ -30,21 +29,21 @@ describe 'logrotate class' do
             compress                  => true
           }
         EOS
-      }
+      end
 
-      it 'should work with default values' do
+      it 'works with default values' do
         apply_manifest_on(host, manifest, catch_failures: true)
       end
 
-      it 'should be idempotent' do
+      it 'is idempotent' do
         apply_manifest_on(host, manifest, catch_changes: true)
       end
 
-      it 'should create SIMP-specific logrotate rule' do
+      it 'creates SIMP-specific logrotate rule' do
         apply_manifest_on(host, manifest_with_rule, catch_failures: true)
       end
 
-      it 'should be idempotent with SIMP-specific logrotate rule' do
+      it 'is idempotent with SIMP-specific logrotate rule' do
         apply_manifest_on(host, manifest_with_rule, catch_changes: true)
       end
 
@@ -52,11 +51,11 @@ describe 'logrotate class' do
         # make sure our assumptions about the default rule are correct
         result = on(host, 'grep -l /var/log/messages /etc/logrotate.d/*')
 
-        expect(result.stdout.split("\n").first.strip).to_not match(%r{^compress})
+        expect(result.stdout.split("\n").first.strip).not_to match(%r{^compress})
 
-        result = on(host, 'logrotate -f /etc/logrotate.conf', :accept_all_exit_codes => true)
+        result = on(host, 'logrotate -f /etc/logrotate.conf', accept_all_exit_codes: true)
 
-        expect(result.stderr).to match(%r(duplicate log entry for /var/log/messages))
+        expect(result.stderr).to match(%r{duplicate log entry for /var/log/messages})
         on(host, 'ls -l /var/log/messages*')
         on(host, 'ls -l /var/log/messages-[0-9]*\.[0-9]*\.gz')
       end
