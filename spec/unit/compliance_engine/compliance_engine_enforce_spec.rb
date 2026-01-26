@@ -4,41 +4,47 @@ require 'spec_helper'
 v1_profiles = './spec/fixtures/modules/compliance_markup/data/compliance_profiles'
 FileUtils.rm_rf(v1_profiles) if File.directory?(v1_profiles)
 
+def compliance_profiles
+  [
+    'nist_800_53:rev4',
+  ]
+end
+
 # This is the class that needs to be added to the catalog last to make the
 # reporting work.
 describe 'compliance_markup', type: :class do
-  compliance_profiles = [
-    'nist_800_53:rev4',
-  ]
-
   # A list of classes that we expect to be included for compliance
   #
   # This needs to be well defined since we can also manipulate defined type
   # defaults
-  expected_classes = [
-    'logrotate',
-  ]
+  let(:expected_classes) do
+    [
+      'logrotate',
+    ]
+  end
 
-  allowed_failures = {
-    'documented_missing_parameters' => [
-    ] + expected_classes.map { |c| Regexp.new("^(?!#{c}(::.*)?)") },
-    'documented_missing_resources' => [
-    ] + expected_classes.map { |c| Regexp.new("^(?!#{c}(::.*)?)") }
-  }
+  let(:allowed_failures) do
+    {
+      'documented_missing_parameters' => [
+      ] + expected_classes.map { |c| Regexp.new("^(?!#{c}(::.*)?)") },
+      'documented_missing_resources' => [
+      ] + expected_classes.map { |c| Regexp.new("^(?!#{c}(::.*)?)") }
+    }
+  end
 
   on_supported_os.each do |os, os_facts|
     context "on #{os}" do
       compliance_profiles.each do |target_profile|
         context "with compliance profile '#{target_profile}'" do
           let(:facts) do
-            os_facts.merge({
-                             target_compliance_profile: target_profile
-                           })
+            os_facts.merge(
+              target_compliance_profile: target_profile,
+            )
           end
           let(:compliance_report) do
             JSON.parse(
-                catalogue.resource("File[#{facts[:puppet_vardir]}/compliance_report.json]")[:content],
-              )
+              catalogue.resource("File[#{facts[:puppet_vardir]}/compliance_report.json]")[:content],
+            )
           end
           let(:compliance_profile_data) do
             compliance_report['compliance_profiles'][target_profile]
@@ -46,8 +52,8 @@ describe 'compliance_markup', type: :class do
 
           let(:pre_condition) do
             %(
-            #{expected_classes.map { |c| %(include #{c}) }.join("\n")}
-          )
+              #{expected_classes.map { |c| %(include #{c}) }.join("\n")}
+            )
           end
 
           let(:hieradata) { 'compliance-engine' }
