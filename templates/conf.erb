@@ -2,6 +2,9 @@
 # Any changes that you make will be reverted on the next puppet run.
 
 <% Array(@log_files).each do |_file| -%>"<%= _file %>" <% end -%> {
+<%  if @ignoreduplicates -%>
+    ignoreduplicates
+<%  end -%>
 <%  unless @_compress -%>
     nocompress
 <%  else -%>
