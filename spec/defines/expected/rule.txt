@@ -2,6 +2,7 @@
 # Any changes that you make will be reverted on the next puppet run.
 
 "test1.log" "test2.log"  {
+    ignoreduplicates
     compress
     nodelaycompress
     nocopy
