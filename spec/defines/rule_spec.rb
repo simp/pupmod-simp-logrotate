@@ -16,8 +16,8 @@ describe 'logrotate::rule' do
         let(:content) { File.read('spec/defines/expected/rule.txt') }
 
         it { is_expected.to compile.with_all_deps }
-        it { is_expected.to create_file('/etc/logrotate.simp.d/test_logrotate_title').with_content(content) }
-        it { is_expected.not_to create_file('/etc/logrotate.simp.d/test_logrotate_title').with_content(%r{lastaction}) }
+        it { is_expected.to create_file('/etc/logrotate.simp.d/50-test_logrotate_title').with_content(content) }
+        it { is_expected.not_to create_file('/etc/logrotate.simp.d/50-test_logrotate_title').with_content(%r{lastaction}) }
       end
 
       context 'without a lastaction specified and lastaction_restart_logger = true' do
@@ -29,11 +29,11 @@ describe 'logrotate::rule' do
         end
 
         it { is_expected.to compile.with_all_deps }
-        it { is_expected.to create_file('/etc/logrotate.simp.d/test_logrotate_title').with_content(%r{test1\.log.*test2\.log}) }
+        it { is_expected.to create_file('/etc/logrotate.simp.d/50-test_logrotate_title').with_content(%r{test1\.log.*test2\.log}) }
         if ((facts[:operatingsystem] == 'Amazon') && (facts[:operatingsystemmajrelease] < '3')) || (facts[:operatingsystemmajrelease].to_s >= '7')
-          it { is_expected.to create_file('/etc/logrotate.simp.d/test_logrotate_title').with_content(%r{lastaction\n\s+/usr/bin/systemctl restart rsyslog}m) }
+          it { is_expected.to create_file('/etc/logrotate.simp.d/50-test_logrotate_title').with_content(%r{lastaction\n\s+/usr/bin/systemctl restart rsyslog}m) }
         else
-          it { is_expected.to create_file('/etc/logrotate.simp.d/test_logrotate_title').with_content(%r{lastaction\n\s+/sbin/service rsyslog restart}m) }
+          it { is_expected.to create_file('/etc/logrotate.simp.d/50-test_logrotate_title').with_content(%r{lastaction\n\s+/sbin/service rsyslog restart}m) }
         end
       end
 
@@ -47,9 +47,9 @@ describe 'logrotate::rule' do
         let(:hieradata) { 'alternate_logger' }
 
         if ((facts[:operatingsystem] == 'Amazon') && (facts[:operatingsystemmajrelease] < '3')) || (facts[:operatingsystemmajrelease].to_s >= '7')
-          it { is_expected.to create_file('/etc/logrotate.simp.d/test_logrotate_title').with_content(%r{lastaction\n\s+/usr/bin/systemctl restart syslog}m) }
+          it { is_expected.to create_file('/etc/logrotate.simp.d/50-test_logrotate_title').with_content(%r{lastaction\n\s+/usr/bin/systemctl restart syslog}m) }
         else
-          it { is_expected.to create_file('/etc/logrotate.simp.d/test_logrotate_title').with_content(%r{lastaction\n\s+/sbin/service syslog restart}m) }
+          it { is_expected.to create_file('/etc/logrotate.simp.d/50-test_logrotate_title').with_content(%r{lastaction\n\s+/sbin/service syslog restart}m) }
         end
       end
 
@@ -62,7 +62,7 @@ describe 'logrotate::rule' do
         end
 
         it { is_expected.to compile.with_all_deps }
-        it { is_expected.to create_file('/etc/logrotate.simp.d/test_logrotate_title').with_content(%r{lastaction\n\s+this is a lastaction}m) }
+        it { is_expected.to create_file('/etc/logrotate.simp.d/50-test_logrotate_title').with_content(%r{lastaction\n\s+this is a lastaction}m) }
       end
 
       context 'with a lastaction specified' do
@@ -76,9 +76,9 @@ describe 'logrotate::rule' do
         end
 
         it { is_expected.to compile.with_all_deps }
-        it { is_expected.to create_file('/etc/logrotate.simp.d/test_logrotate_title').with_content(%r{size\s1000000}) }
-        it { is_expected.to create_file('/etc/logrotate.simp.d/test_logrotate_title').with_content(%r{minsize\s20k}) }
-        it { is_expected.to create_file('/etc/logrotate.simp.d/test_logrotate_title').with_content(%r{maxsize\s1G}) }
+        it { is_expected.to create_file('/etc/logrotate.simp.d/50-test_logrotate_title').with_content(%r{size\s1000000}) }
+        it { is_expected.to create_file('/etc/logrotate.simp.d/50-test_logrotate_title').with_content(%r{minsize\s20k}) }
+        it { is_expected.to create_file('/etc/logrotate.simp.d/50-test_logrotate_title').with_content(%r{maxsize\s1G}) }
       end
 
       context 'with default params' do
@@ -90,8 +90,8 @@ describe 'logrotate::rule' do
         let(:pre_condition) { 'include "logrotate"' }
 
         it { is_expected.to compile.with_all_deps }
-        it { is_expected.to create_file('/etc/logrotate.simp.d/test_logrotate_title').with_content(%r{^\s*dateext\n}m) }
-        it { is_expected.to create_file('/etc/logrotate.simp.d/test_logrotate_title').with_content(%r{^\s*rotate\s+4\n}m) }
+        it { is_expected.to create_file('/etc/logrotate.simp.d/50-test_logrotate_title').with_content(%r{^\s*dateext\n}m) }
+        it { is_expected.to create_file('/etc/logrotate.simp.d/50-test_logrotate_title').with_content(%r{^\s*rotate\s+4\n}m) }
       end
 
       context 'with non default parameters' do
@@ -104,8 +104,8 @@ describe 'logrotate::rule' do
         end
 
         it { is_expected.to compile.with_all_deps }
-        it { is_expected.to create_file('/etc/logrotate.simp.d/test_logrotate_title').with_content(%r{^\s*nodateext\n}m) }
-        it { is_expected.to create_file('/etc/logrotate.simp.d/test_logrotate_title').with_content(%r{^\s*rotate\s+5\n}m) }
+        it { is_expected.to create_file('/etc/logrotate.simp.d/50-test_logrotate_title').with_content(%r{^\s*nodateext\n}m) }
+        it { is_expected.to create_file('/etc/logrotate.simp.d/50-test_logrotate_title').with_content(%r{^\s*rotate\s+5\n}m) }
       end
 
       context 'with su features' do
@@ -119,7 +119,7 @@ describe 'logrotate::rule' do
         end
 
         it { is_expected.to compile.with_all_deps }
-        it { is_expected.to create_file('/etc/logrotate.simp.d/test_logrotate_title').with_content(%r{^\s*su httpd httpd\n}m) }
+        it { is_expected.to create_file('/etc/logrotate.simp.d/50-test_logrotate_title').with_content(%r{^\s*su httpd httpd\n}m) }
       end
 
       context 'dateyesterday set to true' do
@@ -130,7 +130,7 @@ describe 'logrotate::rule' do
           }
         end
 
-        it { is_expected.to create_file('/etc/logrotate.simp.d/test_logrotate_title').with_content(%r{dateyesterday}) }
+        it { is_expected.to create_file('/etc/logrotate.simp.d/50-test_logrotate_title').with_content(%r{dateyesterday}) }
       end
 
       context 'dateyesterday set to false' do
@@ -141,7 +141,7 @@ describe 'logrotate::rule' do
           }
         end
 
-        it { is_expected.to create_file('/etc/logrotate.simp.d/test_logrotate_title').without_content(%r{dateyesterday}) }
+        it { is_expected.to create_file('/etc/logrotate.simp.d/50-test_logrotate_title').without_content(%r{dateyesterday}) }
       end
 
       context 'shred set to true' do
@@ -152,7 +152,7 @@ describe 'logrotate::rule' do
           }
         end
 
-        it { is_expected.to create_file('/etc/logrotate.simp.d/test_logrotate_title').with_content(%r{shred\n}) }
+        it { is_expected.to create_file('/etc/logrotate.simp.d/50-test_logrotate_title').with_content(%r{shred\n}) }
       end
 
       context 'shred set to true and shredcycles set' do
@@ -164,8 +164,8 @@ describe 'logrotate::rule' do
           }
         end
 
-        it { is_expected.to create_file('/etc/logrotate.simp.d/test_logrotate_title').with_content(%r{shred\n}) }
-        it { is_expected.to create_file('/etc/logrotate.simp.d/test_logrotate_title').with_content(%r{shredcycles 5}) }
+        it { is_expected.to create_file('/etc/logrotate.simp.d/50-test_logrotate_title').with_content(%r{shred\n}) }
+        it { is_expected.to create_file('/etc/logrotate.simp.d/50-test_logrotate_title').with_content(%r{shredcycles 5}) }
       end
 
       context 'shred set to false' do
@@ -176,7 +176,7 @@ describe 'logrotate::rule' do
           }
         end
 
-        it { is_expected.to create_file('/etc/logrotate.simp.d/test_logrotate_title').with_content(%r{noshred}) }
+        it { is_expected.to create_file('/etc/logrotate.simp.d/50-test_logrotate_title').with_content(%r{noshred}) }
       end
 
       context 'shred set to false and shredcycles set' do
@@ -188,9 +188,9 @@ describe 'logrotate::rule' do
           }
         end
 
-        it { is_expected.to create_file('/etc/logrotate.simp.d/test_logrotate_title').with_content(%r{noshred}) }
+        it { is_expected.to create_file('/etc/logrotate.simp.d/50-test_logrotate_title').with_content(%r{noshred}) }
 
-        it { is_expected.to create_file('/etc/logrotate.simp.d/test_logrotate_title').without_content(%r{shredcycles 5}) }
+        it { is_expected.to create_file('/etc/logrotate.simp.d/50-test_logrotate_title').without_content(%r{shredcycles 5}) }
       end
     end
   end

@@ -18,8 +18,13 @@
 # @param configdir
 #   The primary directory for SIMP-managed configuration files.
 #
+#   * Listed first in ``logrotate.conf`` so that rules placed here are
+#     processed before any in ``$include_dirs`` and, in combination with
+#     the ``ignoreduplicates`` directive set by ``logrotate::rule``, take
+#     priority over overlapping entries in those directories.
+#
 # @param include_dirs
-#   Directories to include in your logrotate configuration
+#   Additional directories to include in your logrotate configuration
 #
 #   * ``$logrotate::configdir`` is always included and is listed first
 #   * Be sure to include ``/etc/logrotate.d`` in this list if you
@@ -92,7 +97,8 @@ class logrotate (
     content => template("${module_name}/logrotate.conf.erb")
   }
 
-  # This is where the custom rules will go. They will be purged if not managed!
+  # SIMP owns this directory exclusively, so files not managed by puppet
+  # are purged.
   file { $configdir:
     ensure  => 'directory',
     owner   => 'root',

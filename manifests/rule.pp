@@ -34,6 +34,19 @@
 # @param extension
 # @param ifempty
 #
+# @param ignoreduplicates
+#   Add the ``ignoreduplicates`` directive so that this rule causes
+#   logrotate to skip any subsequent matches for the same log files
+#   declared in later-processed configuration files
+#
+# @param order
+#   String prefix used to determine the order in which logrotate
+#   processes this file within ``$logrotate::configdir``
+#
+#   * Logrotate processes files in the directory in alphabetical order,
+#     so lower values are processed first
+#   * The resulting filename will be ``${order}-${name}``
+#
 # @param ext_include
 #   Corresponds to the ``include`` logrotate configuration since it is a
 #   reserved word in Puppet
@@ -97,6 +110,8 @@ define logrotate::rule (
   Optional[Boolean]               $delaycompress             = undef,
   Optional[String[1]]             $extension                 = undef,
   Boolean                         $ifempty                   = false,
+  Boolean                         $ignoreduplicates          = true,
+  Pattern[/\A\d+\z/]              $order                     = '50',
   Optional[Array[String[1]]]      $ext_include               = undef,
   Optional[Simplib::EmailAddress] $mail                      = undef,
   Boolean                         $maillast                  = true,
@@ -162,7 +177,7 @@ define logrotate::rule (
     undef   => $logrotate::rotate,
     default => $rotate }
 
-  file { "${logrotate::configdir}/${name}":
+  file { "${logrotate::configdir}/${order}-${name}":
     owner   => 'root',
     group   => 'root',
     mode    => '0644',
