@@ -55,7 +55,7 @@ describe 'logrotate class' do
 
         result = on(host, 'logrotate -f /etc/logrotate.conf', accept_all_exit_codes: true)
 
-        expect(result.stderr).to match(%r{duplicate log entry for /var/log/messages})
+        expect(result.stderr).to include('duplicate log entry for /var/log/messages')
         on(host, 'ls -l /var/log/messages*')
         on(host, 'ls -l /var/log/messages-[0-9]*\.[0-9]*\.gz')
       end
