@@ -30,7 +30,7 @@ describe 'logrotate::rule' do
 
         it { is_expected.to compile.with_all_deps }
         it { is_expected.to create_file('/etc/logrotate.simp.d/test_logrotate_title').with_content(%r{test1\.log.*test2\.log}) }
-        if ((facts[:operatingsystem] == 'Amazon') && (facts[:operatingsystemmajrelease] < '3')) || (facts[:operatingsystemmajrelease].to_s >= '7')
+        if ((facts[:operatingsystem] == 'Amazon') && (facts[:operatingsystemmajrelease].to_i < 3)) || (facts[:operatingsystemmajrelease].to_i >= 7)
           it { is_expected.to create_file('/etc/logrotate.simp.d/test_logrotate_title').with_content(%r{lastaction\n\s+/usr/bin/systemctl restart rsyslog}m) }
         else
           it { is_expected.to create_file('/etc/logrotate.simp.d/test_logrotate_title').with_content(%r{lastaction\n\s+/sbin/service rsyslog restart}m) }
@@ -46,7 +46,7 @@ describe 'logrotate::rule' do
         end
         let(:hieradata) { 'alternate_logger' }
 
-        if ((facts[:operatingsystem] == 'Amazon') && (facts[:operatingsystemmajrelease] < '3')) || (facts[:operatingsystemmajrelease].to_s >= '7')
+        if ((facts[:operatingsystem] == 'Amazon') && (facts[:operatingsystemmajrelease].to_i < 3)) || (facts[:operatingsystemmajrelease].to_i >= 7)
           it { is_expected.to create_file('/etc/logrotate.simp.d/test_logrotate_title').with_content(%r{lastaction\n\s+/usr/bin/systemctl restart syslog}m) }
         else
           it { is_expected.to create_file('/etc/logrotate.simp.d/test_logrotate_title').with_content(%r{lastaction\n\s+/sbin/service syslog restart}m) }
