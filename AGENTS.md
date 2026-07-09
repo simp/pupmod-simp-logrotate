@@ -40,9 +40,7 @@ Two things live here: one public class and one public defined type.
     default `'weekly'`), `$rotate` (`Integer[0]`, default `4`),
     `$include_dirs` (default `['/etc/logrotate.d']` — **if you override this,
     re-add `/etc/logrotate.d` yourself**, per the docstring at `init.pp`),
-    `$configdir` (default `/etc/logrotate.simp.d`), `$package_ensure` (the seam,
-    `init.pp`), and `$logger_service` (default `'rsyslog'`, consumed by the
-    define's lastaction hook).
+    `$configdir` (default `/etc/logrotate.simp.d`), and `$package_ensure` (the seam, `init.pp`).
 
 - **`logrotate::rule` (`manifests/rule.pp`)** — Public defined type; the
   primary API for adding a rotation stanza. It `include`s `logrotate`
