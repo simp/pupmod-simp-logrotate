@@ -11,8 +11,8 @@ defined type for adding per-log rotation stanzas.
 
 The SIMP twist is where rules live: instead of dropping files directly into
 `/etc/logrotate.d`, the module owns a dedicated **`/etc/logrotate.simp.d`**
-directory (`manifests/init.pp:70`) that is managed with `recurse => true,
-purge => true, force => true` (`init.pp:96-104`). Every rule file in that
+directory (`manifests/init.pp`) that is managed with `recurse => true,
+purge => true, force => true` (`init.pp`). Every rule file in that
 directory **must** come from a `logrotate::rule` resource — any unmanaged file
 placed there is deleted on the next Puppet run. The generated
 `/etc/logrotate.conf` `include`s both `/etc/logrotate.simp.d` and the
@@ -24,71 +24,71 @@ SIMP-managed ones.
 
 Two things live here: one public class and one public defined type.
 
-- **`logrotate` (`manifests/init.pp:64-105`)** — Public entry class (consumers
+- **`logrotate` (`manifests/init.pp`)** — Public entry class (consumers
   `include 'logrotate'`; not `assert_private()`'d). Calls
-  `simplib::assert_metadata($module_name)` (`init.pp:81`), then declares three
+  `simplib::assert_metadata($module_name)` (`init.pp`), then declares three
   resources:
-  - `package { 'logrotate' }` at `$package_ensure` (`init.pp:83-85`).
+  - `package { 'logrotate' }` at `$package_ensure` (`init.pp`).
   - `file { '/etc/logrotate.conf' }` (mode `0644`) rendered from
-    `logrotate.conf.erb` (`init.pp:87-93`) — the global defaults
+    `logrotate.conf.erb` (`init.pp`) — the global defaults
     (`$rotate_period`, `$rotate`, `$create`, `$compress`, `dateext`/`nodateext`,
     `$dateformat`, `$minsize`/`$maxsize`, the optional `/var/log/wtmp` stanza
     gated on `$manage_wtmp`, and the `include` lines).
   - `file { $configdir }` — the purged `/etc/logrotate.simp.d` directory
-    (`init.pp:96-104`).
-  - Notable params (`init.pp:65-78`): `$rotate_period` (`Logrotate::Periods`,
+    (`init.pp`).
+  - Notable params (`init.pp`): `$rotate_period` (`Logrotate::Periods`,
     default `'weekly'`), `$rotate` (`Integer[0]`, default `4`),
     `$include_dirs` (default `['/etc/logrotate.d']` — **if you override this,
-    re-add `/etc/logrotate.d` yourself**, per the docstring at `init.pp:24-26`),
+    re-add `/etc/logrotate.d` yourself**, per the docstring at `init.pp`),
     `$configdir` (default `/etc/logrotate.simp.d`), `$package_ensure` (the seam,
-    `init.pp:77`), and `$logger_service` (default `'rsyslog'`, consumed by the
+    `init.pp`), and `$logger_service` (default `'rsyslog'`, consumed by the
     define's lastaction hook).
 
-- **`logrotate::rule` (`manifests/rule.pp:83-171`)** — Public defined type; the
+- **`logrotate::rule` (`manifests/rule.pp`)** — Public defined type; the
   primary API for adding a rotation stanza. It `include`s `logrotate`
-  (`rule.pp:126`) and writes one file `${logrotate::configdir}/${name}`
-  (mode `0644`) rendered from `conf.erb` (`rule.pp:165-170`). The resource
-  title becomes the filename (`rule.pp:11-12`). Required param: `$log_files`
-  (`Array[String[1]]`, `rule.pp:84`). Key behavior:
+  (`rule.pp`) and writes one file `${logrotate::configdir}/${name}`
+  (mode `0644`) rendered from `conf.erb` (`rule.pp`). The resource
+  title becomes the filename (`rule.pp`). Required param: `$log_files`
+  (`Array[String[1]]`, `rule.pp`). Key behavior:
   - **`no`-variant convention**: many booleans emit their negated logrotate
     keyword when set false (`$ifempty=false`→`notifempty`, `$copy=false`→
     `nocopy`, `$compress=false`→`nocompress`, etc.) — documented at the top of
-    the file (`rule.pp:1-4`) and implemented in `conf.erb`.
-  - **`lastaction` / logger restart** (`rule.pp:128-141`): if you pass
+    the file (`rule.pp`) and implemented in `conf.erb`.
+  - **`lastaction` / logger restart** (`rule.pp`): if you pass
     `$lastaction` it is used verbatim. Otherwise, when
     `$lastaction_restart_logger => true`, the define builds a restart command
     for `$logger_service` — `systemctl restart` when `'systemd' in
     $facts['init_systems']`, else `/sbin/service … restart` — wrapped as
     `… > /dev/null 2>&1 || true` so a restart failure never fails the rotation.
     `$lastaction_restart_logger` has **no effect** if `$lastaction` is set.
-  - **`su` validation** (`rule.pp:143-151`): if `$su => true`, both `$su_user`
+  - **`su` validation** (`rule.pp`): if `$su => true`, both `$su_user`
     and `$su_group` are required or the catalog fails with
     `'logrotate: when $su is specified, $su_user and $su_group must not be
     empty'`.
-  - **Inheritance from the class** (`rule.pp:153-163`): `$dateext`, `$compress`,
+  - **Inheritance from the class** (`rule.pp`): `$dateext`, `$compress`,
     and `$rotate` fall back to the `logrotate` class values when left `undef`.
     Other rule params do not inherit — they simply stay unset.
-  - **`ext_include`** (`rule.pp:100`, docstring `rule.pp:37-39`) maps to
+  - **`ext_include`** (`rule.pp`, docstring `rule.pp`) maps to
     logrotate's `include` directive; it is spelled `ext_include` because
     `include` is a Puppet reserved word.
 
 ### Gotchas / non-obvious details
 
 - **`/etc/logrotate.simp.d` is purged.** Anything in it not declared through
-  `logrotate::rule` is removed on the next run (`init.pp:96-104`). Add rules
+  `logrotate::rule` is removed on the next run (`init.pp`). Add rules
   with the define, not by writing files.
 - **Overriding `$include_dirs` can silently drop distro rules.** The default
   includes `/etc/logrotate.d`; if you set your own list you must re-add it
-  (`init.pp:21-26`).
+  (`init.pp`).
 - **`$lastaction` wins over `$lastaction_restart_logger`.** Setting an explicit
-  `lastaction` disables the automatic logger-restart entirely (`rule.pp:130`).
+  `lastaction` disables the automatic logger-restart entirely (`rule.pp`).
 - **`$su` needs both user and group** or the catalog hard-fails
-  (`rule.pp:143-146`).
+  (`rule.pp`).
 - **`$create` is a formatted string**, not separate mode/owner/group params:
-  `Pattern['\d{4} .+ .+']`, default `'0640 root root'` (`rule.pp:92`).
+  `Pattern['\d{4} .+ .+']`, default `'0640 root root'` (`rule.pp`).
 - **No module data.** This module has **no `hiera.yaml` and no `data/`
   directory** — every default is inline in the manifests (e.g. `$package_ensure`
-  at `init.pp:77`). There is nothing to look up in module data; change defaults
+  at `init.pp`). There is nothing to look up in module data; change defaults
   in the manifest or override at the call site / site Hiera.
 - **`simp/simp_options` is NOT a declared dependency** in `metadata.json`, yet
   the manifests consume the `simp_options::package_ensure` seam via
@@ -99,10 +99,10 @@ Two things live here: one public class and one public defined type.
 
 The module's lookup seam — the natural target for a lookup-path unit test:
 
-| Line | Key | `default_value` |
+| File | Key | `default_value` |
 |------|-----|-----------------|
-| `init.pp:77` | `simp_options::package_ensure` | `'installed'` |
-| `rule.pp:113` | `logrotate::logger_service` (module-local, not `simp_options::*`) | `'rsyslog'` |
+| `init.pp` | `simp_options::package_ensure` | `'installed'` |
+| `rule.pp` | `logrotate::logger_service` (module-local, not `simp_options::*`) | `'rsyslog'` |
 
 Keep routing package state through `simplib::lookup('simp_options::package_ensure',
 { 'default_value' => ... })` with an explicit default rather than assuming
@@ -193,7 +193,7 @@ requires `puppetlabs_spec_helper/module_spec_helper`.
   `/etc/logrotate.simp.d` directly — the directory is purged.
 - Preserve the `@summary` / `@param` puppet-strings docstrings — they drive
   `REFERENCE.md`. Regenerate `REFERENCE.md` after changing docs or parameters.
-- Keep the `no`-variant boolean convention (`rule.pp:1-4`): a false boolean
+- Keep the `no`-variant boolean convention (`rule.pp`): a false boolean
   emits the negated logrotate keyword in `conf.erb`.
 - Continue routing package state through
   `simplib::lookup('simp_options::package_ensure', { 'default_value' => ... })`
