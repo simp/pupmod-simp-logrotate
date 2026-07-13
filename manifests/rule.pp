@@ -110,7 +110,7 @@ define logrotate::rule (
   Optional[String[1]]             $firstaction               = undef,
   Optional[String[1]]             $lastaction                = undef,
   Boolean                         $lastaction_restart_logger = false,
-  Optional[String[1]]             $logger_service            = simplib::lookup('logrotate::logger_service', {'default_value' => 'rsyslog'}),
+  Optional[String[1]]             $logger_service            = simplib::lookup('logrotate::logger_service', { 'default_value' => 'rsyslog' }),
   Optional[Integer[0]]            $rotate                    = undef,
   Optional[Logrotate::Size]       $size                      = undef,
   Boolean                         $sharedscripts             = true,
@@ -122,7 +122,6 @@ define logrotate::rule (
   Integer[0]                      $start                     = 1,
   Optional[Array[String[1]]]      $tabooext                  = undef,
 ) {
-
   include 'logrotate'
 
   # Use the provided lastaction.  If none provided, determine if the
@@ -152,15 +151,15 @@ define logrotate::rule (
 
   $_dateext =  $dateext ? {
     undef   => $logrotate::dateext,
-    default => $dateext }
+  default => $dateext }
 
   $_compress =  $compress ? {
     undef   => $logrotate::compress,
-    default => $compress }
+  default => $compress }
 
   $_rotate =  $rotate ? {
     undef   => $logrotate::rotate,
-    default => $rotate }
+  default => $rotate }
 
   file { "${logrotate::configdir}/${name}":
     owner   => 'root',

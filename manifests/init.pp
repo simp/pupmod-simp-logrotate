@@ -66,7 +66,7 @@ class logrotate (
   Integer[0]                         $rotate         = 4,
   Boolean                            $create         = true,
   Boolean                            $compress       = true,
-  Array[Stdlib::Absolutepath]        $include_dirs   = [ '/etc/logrotate.d' ],
+  Array[Stdlib::Absolutepath]        $include_dirs   = ['/etc/logrotate.d'],
   Stdlib::Absolutepath               $configdir      = '/etc/logrotate.simp.d',
   Boolean                            $manage_wtmp    = true,
   Boolean                            $dateext        = true,
@@ -77,7 +77,6 @@ class logrotate (
   String[1]                          $package_ensure = simplib::lookup('simp_options::package_ensure', { 'default_value' => 'installed' }),
   String[1]                          $logger_service = 'rsyslog'
 ) {
-
   simplib::assert_metadata($module_name)
 
   package { 'logrotate':
