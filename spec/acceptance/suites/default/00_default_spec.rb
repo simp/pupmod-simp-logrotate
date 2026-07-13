@@ -31,6 +31,32 @@ describe 'logrotate class' do
         EOS
       end
 
+      # Exercise noop from a clean (uninstalled) state: on a fresh node the Sicura
+      # console previews the module with `puppet apply --noop`, which must not error
+      # even though nothing logrotate manages exists yet. Real idempotence is covered
+      # by the applies below. A post-convergence noop check is deliberately omitted:
+      # `puppet apply --noop --detailed-exitcodes` always exits 0, so it could never
+      # fail and would test nothing.
+      context 'in noop mode from a clean state' do
+        # Setup, not an assertion: as before(:context) a failure errors this context
+        # rather than aborting the whole suite under .rspec's --fail-fast. `puppet
+        # resource` exits 0 whether it removes the package or finds it already absent
+        # (no --detailed-exitcodes), so no acceptable_exit_codes override is needed.
+        before(:context) do
+          on(host, 'puppet resource package logrotate ensure=absent')
+        end
+
+        it 'applies without errors in noop mode' do
+          apply_manifest_on(host, manifest, catch_failures: true, noop: true)
+        end
+
+        # Proof noop engaged nothing: the acceptance nodeset is EL, so rpm -q exits 1
+        # when logrotate is absent; beaker raises on any other exit code.
+        it 'does not install the logrotate package' do
+          on(host, 'rpm -q logrotate', acceptable_exit_codes: [1])
+        end
+      end
+
       it 'works with default values' do
         apply_manifest_on(host, manifest, catch_failures: true)
       end
