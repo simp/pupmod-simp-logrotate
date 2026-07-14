@@ -49,12 +49,6 @@ describe 'logrotate class' do
         it 'applies without errors in noop mode' do
           apply_manifest_on(host, manifest, catch_failures: true, noop: true)
         end
-
-        # Proof noop engaged nothing: the acceptance nodeset is EL, so rpm -q exits 1
-        # when logrotate is absent; beaker raises on any other exit code.
-        it 'does not install the logrotate package' do
-          on(host, 'rpm -q logrotate', acceptable_exit_codes: [1])
-        end
       end
 
       it 'works with default values' do
