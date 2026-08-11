@@ -95,7 +95,7 @@ Directories to include in your logrotate configuration
 * Be sure to include ``/etc/logrotate.d`` in this list if you
   override the default.
 
-Default value: `[ '/etc/logrotate.d' ]`
+Default value: `['/etc/logrotate.d']`
 
 ##### <a name="-logrotate--manage_wtmp"></a>`manage_wtmp`
 
@@ -481,7 +481,7 @@ The name of the service which will be restarted as a logrotate ``lastaction``
 * NOTE: This will default to ``rsyslog`` unless otherwise specified either
   in the call to the define or as ``logrotate::logger_service``
 
-Default value: `simplib::lookup('logrotate::logger_service', {'default_value' => 'rsyslog'})`
+Default value: `simplib::lookup('logrotate::logger_service', { 'default_value' => 'rsyslog' })`
 
 ##### <a name="-logrotate--rule--rotate"></a>`rotate`
 
