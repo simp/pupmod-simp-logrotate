@@ -578,4 +578,3 @@ Alias of `Enum['hourly', 'daily', 'weekly', 'monthly', 'yearly']`
 Size of a log in bytes, kilobytes, megabytes or gigabytes
 
 Alias of `Variant[Integer[1], Pattern[/^[0-9]+[kMG]?$/]]`
-
